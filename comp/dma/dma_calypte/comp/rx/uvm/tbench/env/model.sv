@@ -163,7 +163,7 @@ class model #(CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE) extends uvm_component;
     function void get_pcie_header(int unsigned packet_size, logic [64-1:0] addr, output logic[32-1 : 0] header[], output logic[168-1 : 0] meta);
         logic [2-1:0]  at       = 0;
         logic [1-1:0]  ecrc     = 0;
-        logic [3-1:0]  attr     = 2;
+        logic [3-1:0]  attr     = 0;
         logic [3-1:0]  tc       = 0;
         logic [1-1:0]  rq_id_enabled = 0;
         logic [16-1:0] cm_id    = 0; //compleater ID

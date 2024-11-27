@@ -774,7 +774,7 @@ begin
             IN_VFID       => (others => '0'),
             IN_TAG        => (others => '0'),
             IN_DW_CNT     => std_logic_vector(to_unsigned(DATA_SEGMENT_SIZE/4, 11)),
-            IN_ATTRIBUTES => "010",
+            IN_ATTRIBUTES => "000",     -- NOTE: Do not activate Relaxed ordering (bit 1) ever again
             IN_FBE        => "1111",
             IN_LBE        => "1111",
             IN_ADDR_LEN   => pcie_addr_len_data_tran,
@@ -820,7 +820,7 @@ begin
             IN_VFID       => (others => '0'),
             IN_TAG        => (others => '0'),
             IN_DW_CNT     => std_logic_vector(to_unsigned(8/4, 11)),
-            IN_ATTRIBUTES => "010",
+            IN_ATTRIBUTES => "000",     -- NOTE: Do not activate Relaxed ordering (bit 1) ever again
             IN_FBE        => "1111",
             IN_LBE        => "1111",
             IN_ADDR_LEN   => pcie_addr_len_dma_hdr_tran,
