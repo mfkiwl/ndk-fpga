@@ -155,13 +155,13 @@ architecture FULL of TX_DMA_CHAN_START_STOP_CTRL is
     -- =============================================================================================
     -- This signal is telling us, when the State should change
     -- is_dma_hdr per region
-    signal is_dma_hdr_arr       : slv_array_t(CHANNELS - 1 downto 0)(PCIE_MFB_REGIONS - 1 downto 0);
+    signal is_dma_hdr_by_chan       : slv_array_t(CHANNELS - 1 downto 0)(PCIE_MFB_REGIONS - 1 downto 0);
 
     -- Divide meta signal for better usage
     signal pcie_mfb_meta_arr        : slv_array_t(PCIE_MFB_REGIONS - 1 downto 0)(13 + (PCIE_MFB_REGION_SIZE*PCIE_MFB_BLOCK_SIZE*PCIE_MFB_ITEM_WIDTH)/8+log2(CHANNELS)+62+1-1 downto 0);
 
     -- SOF for specific channel
-    signal pcie_mfb_sof_arr         : slv_array_t(CHANNELS - 1 downto 0)(PCIE_MFB_REGIONS - 1 downto 0);
+    signal pcie_mfb_sof_by_chan         : slv_array_t(CHANNELS - 1 downto 0)(PCIE_MFB_REGIONS - 1 downto 0);
 
     -- Discard logic and statistics
     signal pcie_mfb_data_arr        : slv_array_t(PCIE_MFB_REGIONS - 1 downto 0)(PCIE_MFB_REGION_SIZE*PCIE_MFB_BLOCK_SIZE*PCIE_MFB_ITEM_WIDTH - 1 downto 0);
@@ -301,14 +301,14 @@ begin
     pcie_mfb_meta_arr   <= slv_array_deser(PCIE_MFB_META, PCIE_MFB_REGIONS);
     channel_sel_p: process(all)
     begin
-        is_dma_hdr_arr      <= (others => (others => '0'));
-        pcie_mfb_sof_arr    <= (others => (others => '0'));
+        is_dma_hdr_by_chan   <= (others => (others => '0'));
+        pcie_mfb_sof_by_chan <= (others => (others => '0'));
 
         -- Last assignment
         for i in 0 to PCIE_MFB_REGIONS - 1 loop
             if PCIE_MFB_SOF(i) = '1' then
-                pcie_mfb_sof_arr(to_integer(unsigned(pcie_mfb_meta_arr(i)(META_CHAN_NUM))))(i)  <= '1';
-                is_dma_hdr_arr(to_integer(unsigned(pcie_mfb_meta_arr(i)(META_CHAN_NUM))))(i)    <= pcie_mfb_meta_arr(i)(META_IS_DMA_HDR)(0);
+                pcie_mfb_sof_by_chan(to_integer(unsigned(pcie_mfb_meta_arr(i)(META_CHAN_NUM))))(i) <= '1';
+                is_dma_hdr_by_chan(to_integer(unsigned(pcie_mfb_meta_arr(i)(META_CHAN_NUM))))(i)   <= pcie_mfb_meta_arr(i)(META_IS_DMA_HDR)(0);
             end if;
         end loop;
     end process;
@@ -428,7 +428,7 @@ begin
                     -- This process is looking for SOF so that it can move to another state
                     -- The state it moves to is based on channel activity
                     when S_IDLE =>
-                        if ((PCIE_MFB_SRC_RDY = '1') and ((or pcie_mfb_sof_arr(j)) = '1')) then
+                        if ((PCIE_MFB_SRC_RDY = '1') and ((or pcie_mfb_sof_by_chan(j)) = '1')) then
 
                             -- 2) 4) 6)
                             if (channel_active_pst(j) = CHANNEL_RUNNING) then
@@ -443,7 +443,7 @@ begin
                             -- Possible discard is handled in previous condition
                             -- Very specific - This assumes that SOF was present in first region aswell
                             --               - In no other case does the DMA header appear.
-                            if (is_dma_hdr_arr(j)(1) = '1') then
+                            if (is_dma_hdr_by_chan(j)(1) = '1') then
                                 pkt_acc_nst(j)      <= S_IDLE;
                             end if;
                         end if;
@@ -452,12 +452,12 @@ begin
                     -- But there's a catch - There could be combination 8)
                     -- Then we move to S_PKT_PENDING or S_PKT_DROP based on channel activity
                     when S_PKT_PENDING  =>
-                        if ((PCIE_MFB_SRC_RDY = '1') and ((or pcie_mfb_sof_arr(j)) = '1')) then
+                        if ((PCIE_MFB_SRC_RDY = '1') and ((or pcie_mfb_sof_by_chan(j)) = '1')) then
 
                             -- 8)
                             -- DMA header is in the first region - we must check if there's start of new transaction
-                            if (is_dma_hdr_arr(j)(0) = '1') then
-                                if (pcie_mfb_sof_arr(j)(1) = '1') then
+                            if (is_dma_hdr_by_chan(j)(0) = '1') then
+                                if (pcie_mfb_sof_by_chan(j)(1) = '1') then
                                     if (channel_active_pst(j) = CHANNEL_RUNNING) then
                                         pkt_acc_nst(j)          <= S_PKT_PENDING;
                                     else
@@ -472,7 +472,7 @@ begin
 
                             -- 3) 7) 9)
                             -- DMA header is in the second region - always move to S_IDLE
-                            if (is_dma_hdr_arr(j)(1) = '1') then
+                            if (is_dma_hdr_by_chan(j)(1) = '1') then
                                 pkt_acc_nst(j)      <= S_IDLE;
                             end if;
                         end if;
@@ -485,12 +485,12 @@ begin
                         if (PCIE_MFB_SRC_RDY = '1') then
 
 
-                            if ((or pcie_mfb_sof_arr(j)) = '1') then
+                            if ((or pcie_mfb_sof_by_chan(j)) = '1') then
 
                                 -- 8)
                                 -- DMA header is in the first region - we must check if there's start of new transaction
-                                if (is_dma_hdr_arr(j)(0) = '1') then
-                                    if (pcie_mfb_sof_arr(j)(1) = '1') then
+                                if (is_dma_hdr_by_chan(j)(0) = '1') then
+                                    if (pcie_mfb_sof_by_chan(j)(1) = '1') then
                                         if (channel_active_pst(j) = CHANNEL_RUNNING) then
                                             pkt_acc_nst(j)          <= S_PKT_PENDING;
                                             chan_pkt_drop_en(j)(1)  <= '0';
@@ -505,7 +505,7 @@ begin
 
                                 -- 3) 7) 9)
                                 -- DMA header is in the second region - always move to S_IDLE
-                                if (is_dma_hdr_arr(j)(1) = '1') then
+                                if (is_dma_hdr_by_chan(j)(1) = '1') then
                                     pkt_acc_nst(j)      <= S_IDLE;
                                 end if;
                             end if;
