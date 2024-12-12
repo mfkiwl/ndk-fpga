@@ -309,13 +309,6 @@ begin
                             end if;
                         end if;
                     else
-
-                        -- switch to the next header because it will be needed by the write of the last word of the
-                        -- transaction when there is also a DMA header transaction to be written at once
-                        if (high_shift_val_pst = "01" and RX_MFB_EOF = '1') then
-                            HDRM_DMA_PCIE_HDR_DST_RDY <= TX_MFB_DST_RDY;
-                        end if;
-
                         if (high_shift_val_pst = "11") then
 
                             RX_MFB_DST_RDY        <= TX_MFB_DST_RDY;
@@ -323,7 +316,8 @@ begin
                             HDRM_DATA_PCIE_HDR_DST_RDY <= TX_MFB_DST_RDY;
 
                             if (RX_MFB_EOF = '1') then
-                                HDRM_DMA_HDR_DST_RDY  <= TX_MFB_DST_RDY;
+                                HDRM_DMA_PCIE_HDR_DST_RDY <= TX_MFB_DST_RDY;
+                                HDRM_DMA_HDR_DST_RDY      <= TX_MFB_DST_RDY;
                             end if;
                         end if;
                     end if;
