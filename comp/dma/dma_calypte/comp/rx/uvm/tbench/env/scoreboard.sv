@@ -99,7 +99,11 @@ class scoreboard #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE) exten
         return ret;
     endfunction
 
-    function bit pcie_compare(uvm_logic_vector_array::sequence_item#(32) tr_dut, uvm_logic_vector::sequence_item#(META_WIDTH) tr_meta_dut, model_packet packet_model, uvm_logic_vector::sequence_item#(META_WIDTH) tr_meta_model);
+    function bit pcie_compare(
+                              uvm_logic_vector_array::sequence_item#(32) tr_dut,
+                              uvm_logic_vector::sequence_item#(META_WIDTH) tr_meta_dut,
+                              model_packet packet_model,
+                              uvm_logic_vector::sequence_item#(META_WIDTH) tr_meta_model);
         bit ret = 1;
         uvm_logic_vector_array::sequence_item#(32) tr_model;
 
