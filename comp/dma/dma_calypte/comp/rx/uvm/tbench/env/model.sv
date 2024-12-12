@@ -245,8 +245,8 @@ class model #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE) extends uv
         string dbg_msg;
 
         packet_pointer_start = m_data[channel].data_ptr;
-        pcie_packet = new[packet.size()/4];
-        for (it = 0; it < packet.size()/4; it++) begin
+        pcie_packet = new[(packet.size()+4)/4];
+        for (it = 0; it < (packet.size()+4)/4; it++) begin
             pcie_packet[it] = {<<8{packet[it*4 +: 4]}};
         end
         parts = (packet.size() + 127)/128;
