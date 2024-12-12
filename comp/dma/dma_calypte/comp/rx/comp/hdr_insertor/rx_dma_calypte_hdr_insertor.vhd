@@ -294,7 +294,6 @@ begin
                 if (IS_INTEL = FALSE) then
 
                     if (TX_REGIONS = 1) then
-
                         if (high_shift_val_pst = "11") then
                             -- switch the PCIE header on the input to the next one
                             -- DMA_HDR request
