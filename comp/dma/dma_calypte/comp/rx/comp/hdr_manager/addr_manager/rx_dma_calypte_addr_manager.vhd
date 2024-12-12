@@ -105,6 +105,33 @@ architecture FULL of RX_DMA_CALYPTE_ADDR_MANAGER is
     signal packet_vld  : std_logic;
     signal packet_next : std_logic;
 
+    -- attribute mark_debug : string;
+
+    -- attribute mark_debug of ADDR_CHANNEL        : signal is "true";
+    -- attribute mark_debug of ADDR_BASE           : signal is "true";
+    -- attribute mark_debug of ADDR_MASK           : signal is "true";
+    -- attribute mark_debug of ADDR_SW_POINTER     : signal is "true";
+    -- attribute mark_debug of POINTER_UPDATE_CHAN : signal is "true";
+    -- attribute mark_debug of POINTER_UPDATE_DATA : signal is "true";
+    -- attribute mark_debug of POINTER_UPDATE_EN   : signal is "true";
+    -- attribute mark_debug of CHANNEL             : signal is "true";
+    -- attribute mark_debug of CHANNEL_VLD         : signal is "true";
+    -- attribute mark_debug of START_REQ_CHANNEL   : signal is "true";
+    -- attribute mark_debug of START_REQ_VLD       : signal is "true";
+    -- attribute mark_debug of ADDR                : signal is "true";
+    -- attribute mark_debug of OFFSET              : signal is "true";
+    -- attribute mark_debug of ADDR_VLD            : signal is "true";
+
+    -- attribute mark_debug of hw_pointer_wr       : signal is "true";
+    -- attribute mark_debug of hw_pointer_wr_addr  : signal is "true";
+    -- attribute mark_debug of hw_pointer_wr_data  : signal is "true";
+    -- attribute mark_debug of hw_pointer_rd_data  : signal is "true";
+    -- attribute mark_debug of hw_pointer_new      : signal is "true";
+    -- attribute mark_debug of hw_offset           : signal is "true";
+    -- attribute mark_debug of channel_act_reg     : signal is "true";
+    -- attribute mark_debug of channel_act_vld_reg : signal is "true";
+    -- attribute mark_debug of packet_vld          : signal is "true";
+    -- attribute mark_debug of packet_next         : signal is "true";
 begin
     assert (2**log2(BLOCK_SIZE) = BLOCK_SIZE)
         report "ERROR: BLOCK_SIZE which is not power of two is not supported yet actual block size is " & integer'image(BLOCK_SIZE) & ". If you want to try on your own risk, delete this assert"
