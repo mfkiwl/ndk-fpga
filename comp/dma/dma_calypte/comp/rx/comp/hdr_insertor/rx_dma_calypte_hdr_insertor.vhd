@@ -461,7 +461,9 @@ begin
                         -- that the initial shift is at its highest value (e.q. "011")
                         high_shift_val_nst <= high_shift_val_pst;
 
-                        if (HDRM_DMA_PCIE_HDR_SIZE = '0') then
+                        -- TODO: It needs to be more generalized. What if DATA header has the length
+                        -- of 0 and the DMA the length of 1
+                        if (HDRM_DATA_PCIE_HDR_SIZE = '0') then
 
                             if (TX_REGIONS = 2 and RX_MFB_EOF = '1') then
 
