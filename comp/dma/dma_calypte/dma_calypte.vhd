@@ -213,6 +213,7 @@ architecture FULL of DMA_CALYPTE is
     signal inp_fifo_mfb_dst_rdy : std_logic;
 
     -- attribute mark_debug : string;
+    -- attribute preserve_for_debug : boolean;
 
     -- attribute mark_debug of USR_RX_MFB_META_PKT_SIZE : signal is "true";
     -- attribute mark_debug of USR_RX_MFB_META_CHAN     : signal is "true";
@@ -225,25 +226,25 @@ architecture FULL of DMA_CALYPTE is
     -- attribute mark_debug of USR_RX_MFB_SRC_RDY       : signal is "true";
     -- attribute mark_debug of USR_RX_MFB_DST_RDY       : signal is "true";
 
-    -- attribute mark_debug of USR_TX_MFB_META_PKT_SIZE : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_META_CHAN     : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_META_HDR_META : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_DATA          : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_SOF_POS       : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_EOF_POS       : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_SOF           : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_EOF           : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_SRC_RDY       : signal is "true";
-    -- attribute mark_debug of USR_TX_MFB_DST_RDY       : signal is "true";
+    -- attribute preserve_for_debug of USR_TX_MFB_META_PKT_SIZE : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_META_CHAN     : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_META_HDR_META : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_DATA          : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_SOF_POS       : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_EOF_POS       : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_SOF           : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_EOF           : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_SRC_RDY       : signal is true;
+    -- attribute preserve_for_debug of USR_TX_MFB_DST_RDY       : signal is true;
 
-    -- attribute mark_debug of PCIE_CQ_MFB_DATA    : signal is "true";
-    -- attribute mark_debug of PCIE_CQ_MFB_META    : signal is "true";
-    -- attribute mark_debug of PCIE_CQ_MFB_SOF     : signal is "true";
-    -- attribute mark_debug of PCIE_CQ_MFB_EOF     : signal is "true";
-    -- attribute mark_debug of PCIE_CQ_MFB_SOF_POS : signal is "true";
-    -- attribute mark_debug of PCIE_CQ_MFB_EOF_POS : signal is "true";
-    -- attribute mark_debug of PCIE_CQ_MFB_SRC_RDY : signal is "true";
-    -- attribute mark_debug of PCIE_CQ_MFB_DST_RDY : signal is "true";
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_DATA    : signal is true;
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_META    : signal is true;
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_SOF     : signal is true;
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_EOF     : signal is true;
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_SOF_POS : signal is true;
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_EOF_POS : signal is true;
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_SRC_RDY : signal is true;
+    -- attribute preserve_for_debug of PCIE_CQ_MFB_DST_RDY : signal is true;
 begin
 
     rx_dma_calypte_g : if (RX_GEN_EN) generate
