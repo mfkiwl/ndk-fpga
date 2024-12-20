@@ -65,7 +65,7 @@ if {$PARAMS(PCIE_ENDPOINT_MODE) == 2} {
 } else {
     # x16 properties
     set_property -dict [list \
-        CONFIG.AXISTEN_IF_EXT_512_CQ_STRADDLE {false} \
+        CONFIG.AXISTEN_IF_EXT_512_CQ_STRADDLE {true} \
         CONFIG.AXISTEN_IF_EXT_512_RC_4TLP_STRADDLE {true} \
         CONFIG.AXISTEN_IF_EXT_512_RQ_STRADDLE {true} \
         CONFIG.axisten_if_width {512_bit} \
