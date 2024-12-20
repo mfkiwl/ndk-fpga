@@ -352,7 +352,7 @@ architecture FULL of FPGA_COMMON is
 
     constant DMA_DBG_CNTR_EN : boolean := DMA_DEBUG_ENABLE;
 
-    constant HDR_META_WIDTH     : integer := 12;
+    constant HDR_META_WIDTH     : integer := 24;
 
     -- This function returns appropriate REGION_SIZE parameter value according to set DMA type, and
     -- PCIe configuration
