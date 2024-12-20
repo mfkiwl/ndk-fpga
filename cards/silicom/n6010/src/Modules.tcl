@@ -32,8 +32,8 @@ set ETILE_ETH_IP_NAME "etile_eth_[dict get $ETH_CONF $ARCHGRP_ARR(ETH_PORT_SPEED
 # see '$ARCHGRP_ARR(CORE_BASE)/src/ip/common.tcl' for more information regarding the fields
 #                         script_path    script_name       ip_comp_name     type  modify
 lappend IP_COMPONENTS [list  "clk"    "iopll"            "iopll_ip"           0      1]
-lappend IP_COMPONENTS [list  "mem"    "ddr4_calibration" "ddr4_calibration"   0      1]
-lappend IP_COMPONENTS [list  "mem"    "onboard_ddr4"     "onboard_ddr4"       0      1]
+# lappend IP_COMPONENTS [list  "mem"    "ddr4_calibration" "ddr4_calibration"   0      1]
+# lappend IP_COMPONENTS [list  "mem"    "onboard_ddr4"     "onboard_ddr4"       0      1]
 lappend IP_COMPONENTS [list  "misc"   "mailbox_client"   "mailbox_client_ip"  0      0]
 lappend IP_COMPONENTS [list  "misc"   "reset_release"    "reset_release_ip"   0      0]
 lappend IP_COMPONENTS [list  "pcie"   "ptile_pcie"       $PTILE_PCIE_IP_NAME  0      1]

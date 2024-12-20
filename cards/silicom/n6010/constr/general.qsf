@@ -43,6 +43,10 @@ set_global_assignment -name USE_CONF_DONE Off
 #set_global_assignment -name PWRMGT_LINEAR_FORMAT_N 0
 
 set_global_assignment -name GENERATE_COMPRESSED_SOF ON
+set_global_assignment -name PRESERVE_FOR_DEBUG_ENABLE ON
+
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 
 # ==============================================================================
 # Clocks

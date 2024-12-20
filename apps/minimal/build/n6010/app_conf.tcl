@@ -19,13 +19,15 @@ set DMA_TX_CHANNELS      16
 # In non-blocking mode, packets are dropped whenever they cannot be sent.
 set DMA_RX_BLOCKING_MODE true
 # External DDR4 memory settings (allowed values 4 or 0).
-set MEM_PORTS            4
+set MEM_PORTS            0
+
+set APP_CORE_ENABLE false
 
 # ------------------------------------------------------------------------------
 # Select debug parameters:
 # ------------------------------------------------------------------------------
 # Enables debug probes and counters in the DMA Module (Medusa)
-set DMA_DEBUG_ENABLE       false
+set DMA_DEBUG_ENABLE       true
 # Enables debug probes and counters in the PCIe Module (PCIe Core arch: USP and P-Tile)
 set PCIE_CORE_DEBUG_ENABLE false
 # Enables debug probes in the PCIe Module (PCIe Ctrl)

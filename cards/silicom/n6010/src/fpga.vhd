@@ -34,129 +34,129 @@ port (
     -- =========================================================================
     -- QSFP
     -- =========================================================================
-    QSFP_REFCLK_156M    : in    std_logic;
+    -- QSFP_REFCLK_156M    : in    std_logic;
 
-    -- QSFP data
-    QSFP0_RX_P          : in    std_logic_vector(4-1 downto 0);
-    QSFP0_RX_N          : in    std_logic_vector(4-1 downto 0);
-    QSFP0_TX_P          : out   std_logic_vector(4-1 downto 0);
-    QSFP0_TX_N          : out   std_logic_vector(4-1 downto 0);
+    -- -- QSFP data
+    -- QSFP0_RX_P          : in    std_logic_vector(4-1 downto 0);
+    -- QSFP0_RX_N          : in    std_logic_vector(4-1 downto 0);
+    -- QSFP0_TX_P          : out   std_logic_vector(4-1 downto 0);
+    -- QSFP0_TX_N          : out   std_logic_vector(4-1 downto 0);
 
-    QSFP1_RX_P          : in    std_logic_vector(4-1 downto 0);
-    QSFP1_RX_N          : in    std_logic_vector(4-1 downto 0);
-    QSFP1_TX_P          : out   std_logic_vector(4-1 downto 0);
-    QSFP1_TX_N          : out   std_logic_vector(4-1 downto 0);
+    -- QSFP1_RX_P          : in    std_logic_vector(4-1 downto 0);
+    -- QSFP1_RX_N          : in    std_logic_vector(4-1 downto 0);
+    -- QSFP1_TX_P          : out   std_logic_vector(4-1 downto 0);
+    -- QSFP1_TX_N          : out   std_logic_vector(4-1 downto 0);
 
-    -- QSFP control
-    QSFP0_I2C_SCL       : inout std_logic;
-    QSFP0_I2C_SDA       : inout std_logic;
-    QSFP0_LPMODE        : out   std_logic;
-    QSFP0_RESET_N       : out   std_logic;
-    QSFP0_MODESEL_N     : out   std_logic;
-    QSFP0_MODPRS_N      : in    std_logic;
-    QSFP0_INT_N         : in    std_logic;
+    -- -- QSFP control
+    -- QSFP0_I2C_SCL       : inout std_logic;
+    -- QSFP0_I2C_SDA       : inout std_logic;
+    -- QSFP0_LPMODE        : out   std_logic;
+    -- QSFP0_RESET_N       : out   std_logic;
+    -- QSFP0_MODESEL_N     : out   std_logic;
+    -- QSFP0_MODPRS_N      : in    std_logic;
+    -- QSFP0_INT_N         : in    std_logic;
 
-    QSFP1_I2C_SCL       : inout std_logic;
-    QSFP1_I2C_SDA       : inout std_logic;
-    QSFP1_LPMODE        : out   std_logic;
-    QSFP1_RESET_N       : out   std_logic;
-    QSFP1_MODESEL_N     : out   std_logic;
-    QSFP1_MODPRS_N      : in    std_logic;
-    QSFP1_INT_N         : in    std_logic;
+    -- QSFP1_I2C_SCL       : inout std_logic;
+    -- QSFP1_I2C_SDA       : inout std_logic;
+    -- QSFP1_LPMODE        : out   std_logic;
+    -- QSFP1_RESET_N       : out   std_logic;
+    -- QSFP1_MODESEL_N     : out   std_logic;
+    -- QSFP1_MODPRS_N      : in    std_logic;
+    -- QSFP1_INT_N         : in    std_logic;
 
-    -- QSFP leds
-    QSFP0_LED_G         : out   std_logic;
-    QSFP0_LED_R         : out   std_logic;
-    QSFP1_LED_G         : out   std_logic;
-    QSFP1_LED_R         : out   std_logic;
+    -- -- QSFP leds
+    -- QSFP0_LED_G         : out   std_logic;
+    -- QSFP0_LED_R         : out   std_logic;
+    -- QSFP1_LED_G         : out   std_logic;
+    -- QSFP1_LED_R         : out   std_logic;
 
-    -- =========================================================================
-    -- DDR4 Channel 0
-    -- =========================================================================
-    DDR4_CH0_REF_CLK   : in    std_logic;
-    DDR4_CH0_OCT_RZQIN : in    std_logic;
-    DDR4_CH0_ALERT_N   : in    std_logic;
-    DDR4_CH0_BG        : out   std_logic;
-    DDR4_CH0_BA        : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH0_A         : out   std_logic_vector(17-1 downto 0);
-    DDR4_CH0_PAR       : out   std_logic;
-    DDR4_CH0_CK_N      : out   std_logic;
-    DDR4_CH0_CK        : out   std_logic;
-    DDR4_CH0_CKE       : out   std_logic;
-    DDR4_CH0_ODT       : out   std_logic;
-    DDR4_CH0_ACT_N     : out   std_logic;
-    DDR4_CH0_CS_N      : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH0_RESET_N   : out   std_logic;
-    DDR4_CH0_DQS       : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH0_DQS_N     : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH0_DQ        : inout std_logic_vector(32-1 downto 0);
-    DDR4_CH0_DBI_N     : inout std_logic_vector(4-1 downto 0);
+    -- -- =========================================================================
+    -- -- DDR4 Channel 0
+    -- -- =========================================================================
+    -- DDR4_CH0_REF_CLK   : in    std_logic;
+    -- DDR4_CH0_OCT_RZQIN : in    std_logic;
+    -- DDR4_CH0_ALERT_N   : in    std_logic;
+    -- DDR4_CH0_BG        : out   std_logic;
+    -- DDR4_CH0_BA        : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH0_A         : out   std_logic_vector(17-1 downto 0);
+    -- DDR4_CH0_PAR       : out   std_logic;
+    -- DDR4_CH0_CK_N      : out   std_logic;
+    -- DDR4_CH0_CK        : out   std_logic;
+    -- DDR4_CH0_CKE       : out   std_logic;
+    -- DDR4_CH0_ODT       : out   std_logic;
+    -- DDR4_CH0_ACT_N     : out   std_logic;
+    -- DDR4_CH0_CS_N      : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH0_RESET_N   : out   std_logic;
+    -- DDR4_CH0_DQS       : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH0_DQS_N     : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH0_DQ        : inout std_logic_vector(32-1 downto 0);
+    -- DDR4_CH0_DBI_N     : inout std_logic_vector(4-1 downto 0);
 
-    -- =========================================================================
-    -- DDR4 Channel 1
-    -- =========================================================================
-    DDR4_CH1_REF_CLK   : in    std_logic;
-    DDR4_CH1_OCT_RZQIN : in    std_logic;
-    DDR4_CH1_ALERT_N   : in    std_logic;
-    DDR4_CH1_BG        : out   std_logic;
-    DDR4_CH1_BA        : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH1_A         : out   std_logic_vector(17-1 downto 0);
-    DDR4_CH1_PAR       : out   std_logic;
-    DDR4_CH1_CK_N      : out   std_logic;
-    DDR4_CH1_CK        : out   std_logic;
-    DDR4_CH1_CKE       : out   std_logic;
-    DDR4_CH1_ODT       : out   std_logic;
-    DDR4_CH1_ACT_N     : out   std_logic;
-    DDR4_CH1_CS_N      : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH1_RESET_N   : out   std_logic;
-    DDR4_CH1_DQS       : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH1_DQS_N     : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH1_DQ        : inout std_logic_vector(32-1 downto 0);
-    DDR4_CH1_DBI_N     : inout std_logic_vector(4-1 downto 0);
+    -- -- =========================================================================
+    -- -- DDR4 Channel 1
+    -- -- =========================================================================
+    -- DDR4_CH1_REF_CLK   : in    std_logic;
+    -- DDR4_CH1_OCT_RZQIN : in    std_logic;
+    -- DDR4_CH1_ALERT_N   : in    std_logic;
+    -- DDR4_CH1_BG        : out   std_logic;
+    -- DDR4_CH1_BA        : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH1_A         : out   std_logic_vector(17-1 downto 0);
+    -- DDR4_CH1_PAR       : out   std_logic;
+    -- DDR4_CH1_CK_N      : out   std_logic;
+    -- DDR4_CH1_CK        : out   std_logic;
+    -- DDR4_CH1_CKE       : out   std_logic;
+    -- DDR4_CH1_ODT       : out   std_logic;
+    -- DDR4_CH1_ACT_N     : out   std_logic;
+    -- DDR4_CH1_CS_N      : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH1_RESET_N   : out   std_logic;
+    -- DDR4_CH1_DQS       : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH1_DQS_N     : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH1_DQ        : inout std_logic_vector(32-1 downto 0);
+    -- DDR4_CH1_DBI_N     : inout std_logic_vector(4-1 downto 0);
 
-    -- =========================================================================
-    -- DDR4 Channel 2
-    -- =========================================================================
-    DDR4_CH2_REF_CLK   : in    std_logic;
-    DDR4_CH2_OCT_RZQIN : in    std_logic;
-    DDR4_CH2_ALERT_N   : in    std_logic;
-    DDR4_CH2_BG        : out   std_logic;
-    DDR4_CH2_BA        : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH2_A         : out   std_logic_vector(17-1 downto 0);
-    DDR4_CH2_PAR       : out   std_logic;
-    DDR4_CH2_CK_N      : out   std_logic;
-    DDR4_CH2_CK        : out   std_logic;
-    DDR4_CH2_CKE       : out   std_logic;
-    DDR4_CH2_ODT       : out   std_logic;
-    DDR4_CH2_ACT_N     : out   std_logic;
-    DDR4_CH2_CS_N      : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH2_RESET_N   : out   std_logic;
-    DDR4_CH2_DQS       : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH2_DQS_N     : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH2_DQ        : inout std_logic_vector(32-1 downto 0);
-    DDR4_CH2_DBI_N     : inout std_logic_vector(4-1 downto 0);
+    -- -- =========================================================================
+    -- -- DDR4 Channel 2
+    -- -- =========================================================================
+    -- DDR4_CH2_REF_CLK   : in    std_logic;
+    -- DDR4_CH2_OCT_RZQIN : in    std_logic;
+    -- DDR4_CH2_ALERT_N   : in    std_logic;
+    -- DDR4_CH2_BG        : out   std_logic;
+    -- DDR4_CH2_BA        : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH2_A         : out   std_logic_vector(17-1 downto 0);
+    -- DDR4_CH2_PAR       : out   std_logic;
+    -- DDR4_CH2_CK_N      : out   std_logic;
+    -- DDR4_CH2_CK        : out   std_logic;
+    -- DDR4_CH2_CKE       : out   std_logic;
+    -- DDR4_CH2_ODT       : out   std_logic;
+    -- DDR4_CH2_ACT_N     : out   std_logic;
+    -- DDR4_CH2_CS_N      : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH2_RESET_N   : out   std_logic;
+    -- DDR4_CH2_DQS       : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH2_DQS_N     : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH2_DQ        : inout std_logic_vector(32-1 downto 0);
+    -- DDR4_CH2_DBI_N     : inout std_logic_vector(4-1 downto 0);
 
-    -- =========================================================================
-    -- DDR4 Channel 3
-    -- =========================================================================
-    DDR4_CH3_REF_CLK   : in    std_logic;
-    DDR4_CH3_OCT_RZQIN : in    std_logic;
-    DDR4_CH3_ALERT_N   : in    std_logic;
-    DDR4_CH3_BG        : out   std_logic;
-    DDR4_CH3_BA        : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH3_A         : out   std_logic_vector(17-1 downto 0);
-    DDR4_CH3_PAR       : out   std_logic;
-    DDR4_CH3_CK_N      : out   std_logic;
-    DDR4_CH3_CK        : out   std_logic;
-    DDR4_CH3_CKE       : out   std_logic;
-    DDR4_CH3_ODT       : out   std_logic;
-    DDR4_CH3_ACT_N     : out   std_logic;
-    DDR4_CH3_CS_N      : out   std_logic_vector(2-1 downto 0);
-    DDR4_CH3_RESET_N   : out   std_logic;
-    DDR4_CH3_DQS       : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH3_DQS_N     : inout std_logic_vector(4-1 downto 0);
-    DDR4_CH3_DQ        : inout std_logic_vector(32-1 downto 0);
-    DDR4_CH3_DBI_N     : inout std_logic_vector(4-1 downto 0);
+    -- -- =========================================================================
+    -- -- DDR4 Channel 3
+    -- -- =========================================================================
+    -- DDR4_CH3_REF_CLK   : in    std_logic;
+    -- DDR4_CH3_OCT_RZQIN : in    std_logic;
+    -- DDR4_CH3_ALERT_N   : in    std_logic;
+    -- DDR4_CH3_BG        : out   std_logic;
+    -- DDR4_CH3_BA        : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH3_A         : out   std_logic_vector(17-1 downto 0);
+    -- DDR4_CH3_PAR       : out   std_logic;
+    -- DDR4_CH3_CK_N      : out   std_logic;
+    -- DDR4_CH3_CK        : out   std_logic;
+    -- DDR4_CH3_CKE       : out   std_logic;
+    -- DDR4_CH3_ODT       : out   std_logic;
+    -- DDR4_CH3_ACT_N     : out   std_logic;
+    -- DDR4_CH3_CS_N      : out   std_logic_vector(2-1 downto 0);
+    -- DDR4_CH3_RESET_N   : out   std_logic;
+    -- DDR4_CH3_DQS       : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH3_DQS_N     : inout std_logic_vector(4-1 downto 0);
+    -- DDR4_CH3_DQ        : inout std_logic_vector(32-1 downto 0);
+    -- DDR4_CH3_DBI_N     : inout std_logic_vector(4-1 downto 0);
 
     -- =========================================================================
     -- BMC INTERFACE
@@ -385,23 +385,23 @@ begin
         ETH_TX_P               => eth_tx_p,
         ETH_TX_N               => eth_tx_n,
 
-        ETH_LED_R(0)           => QSFP0_LED_R,
-        ETH_LED_R(1)           => QSFP1_LED_R,
-        ETH_LED_G(0)           => QSFP0_LED_G,
-        ETH_LED_G(1)           => QSFP1_LED_G,
+        ETH_LED_R(0)           => open,
+        -- ETH_LED_R(1)           => QSFP0_LED_R,
+        ETH_LED_G(0)           => open,
+        -- ETH_LED_G(1)           => QSFP1_LED_G,
 
-        QSFP_I2C_SCL(0)        => QSFP0_I2C_SCL,
-        QSFP_I2C_SCL(1)        => QSFP1_I2C_SCL,
-        QSFP_I2C_SDA(0)        => QSFP0_I2C_SDA,
-        QSFP_I2C_SDA(1)        => QSFP1_I2C_SDA,
-        QSFP_MODSEL_N(0)       => QSFP0_MODESEL_N,
-        QSFP_MODSEL_N(1)       => QSFP1_MODESEL_N,
-        QSFP_LPMODE(0)         => QSFP0_LPMODE,
-        QSFP_LPMODE(1)         => QSFP1_LPMODE,
-        QSFP_RESET_N(0)        => QSFP0_RESET_N,
-        QSFP_RESET_N(1)        => QSFP1_RESET_N,
-        QSFP_MODPRS_N          => QSFP1_MODPRS_N & QSFP0_MODPRS_N,
-        QSFP_INT_N             => QSFP1_INT_N & QSFP0_INT_N,
+        QSFP_I2C_SCL(0)        => open,
+        -- QSFP_I2C_SCL(1)        => QSFP1_I2C_SCL,
+        QSFP_I2C_SDA(0)        => open,
+        -- QSFP_I2C_SDA(1)        => QSFP1_I2C_SDA,
+        QSFP_MODSEL_N(0)       => open,
+        -- QSFP_MODSEL_N(1)       => QSFP1_MODESEL_N,
+        QSFP_LPMODE(0)         => open,
+        -- QSFP_LPMODE(1)         => QSFP1_LPMODE,
+        QSFP_RESET_N(0)        => open,
+        -- QSFP_RESET_N(1)        => QSFP1_RESET_N,
+        QSFP_MODPRS_N          => (others => '0'),
+        QSFP_INT_N             => (others => '0'),
 
         MEM_CLK                => mem_clk,
         MEM_RST                => not mem_rst_n,
@@ -437,16 +437,16 @@ begin
     );
 
     -- QSFP MAPPING ------------------------------------------------------------
-    eth_refclk_p <= QSFP_REFCLK_156M & QSFP_REFCLK_156M;
+    eth_refclk_p <= (others => '0');
     eth_refclk_n <= (others => '0'); -- Quartus will handle the connection itself
 
-    eth_rx_p <= QSFP1_RX_P & QSFP0_RX_P;
-    eth_rx_n <= QSFP1_RX_N & QSFP0_RX_N;
+    eth_rx_p <= (others => '0');
+    eth_rx_n <= (others => '0');
 
-    QSFP0_TX_P <= eth_tx_p(1*ETH_LANES-1 downto 0*ETH_LANES);
-    QSFP0_TX_N <= eth_tx_n(1*ETH_LANES-1 downto 0*ETH_LANES);
-    QSFP1_TX_P <= eth_tx_p(2*ETH_LANES-1 downto 1*ETH_LANES);
-    QSFP1_TX_N <= eth_tx_n(2*ETH_LANES-1 downto 1*ETH_LANES);
+    -- QSFP0_TX_P <= eth_tx_p(1*ETH_LANES-1 downto 0*ETH_LANES);
+    -- QSFP0_TX_N <= eth_tx_n(1*ETH_LANES-1 downto 0*ETH_LANES);
+    -- QSFP1_TX_P <= eth_tx_p(2*ETH_LANES-1 downto 1*ETH_LANES);
+    -- QSFP1_TX_N <= eth_tx_n(2*ETH_LANES-1 downto 1*ETH_LANES);
 
     -- BMC controller (ported from OFS) ----------------------------------------
     pmci_i : entity work.PMCI_TOP
@@ -492,284 +492,284 @@ begin
 
     -- DDR4 EMIFs --------------------------------------------------------------
 
-    ddr4_g: if (MEM_PORTS > 0) generate
-        ddr4_ch0_i : component onboard_ddr4
-        port map (
-            local_reset_req      => emif_rst_req(0),
-            local_reset_done     => emif_rst_done(0),
-            pll_ref_clk          => DDR4_CH0_REF_CLK,
-            pll_locked           => mem_pll_locked(0),
-            oct_rzqin            => DDR4_CH0_OCT_RZQIN,
-            mem_ck(0)            => DDR4_CH0_CK,
-            mem_ck_n(0)          => DDR4_CH0_CK_N,
-            mem_a                => DDR4_CH0_A,
-            mem_act_n(0)         => DDR4_CH0_ACT_N,
-            mem_ba               => DDR4_CH0_BA,
-            mem_bg(0)            => DDR4_CH0_BG,
-            mem_cke(0)           => DDR4_CH0_CKE,
-            mem_cs_n             => DDR4_CH0_CS_N,
-            mem_odt(0)           => DDR4_CH0_ODT,
-            mem_reset_n(0)       => DDR4_CH0_RESET_N,
-            mem_par(0)           => DDR4_CH0_PAR,
-            mem_alert_n(0)       => DDR4_CH0_ALERT_N,
-            mem_dqs              => DDR4_CH0_DQS,
-            mem_dqs_n            => DDR4_CH0_DQS_N,
-            mem_dq               => DDR4_CH0_DQ,
-            mem_dbi_n            => DDR4_CH0_DBI_N,
-            local_cal_success    => emif_cal_success(0),
-            local_cal_fail       => emif_cal_fail(0),
-            emif_usr_reset_n     => mem_rst_n(0),
-            emif_usr_clk         => mem_clk(0),
-            amm_ready_0          => mem_avmm_ready(0),
-            amm_read_0           => mem_avmm_read(0),
-            amm_write_0          => mem_avmm_write(0),
-            amm_address_0        => mem_avmm_address(0),
-            amm_readdata_0       => mem_avmm_readdata(0),
-            amm_writedata_0      => mem_avmm_writedata(0),
-            amm_burstcount_0     => mem_avmm_burstcount(0),
-            amm_readdatavalid_0  => mem_avmm_readdatavalid(0),
-            calbus_read          => calbus_read(0),
-            calbus_write         => calbus_write(0),
-            calbus_address       => calbus_address(0),
-            calbus_wdata         => calbus_wdata(0),
-            calbus_rdata         => calbus_rdata(0),
-            calbus_seq_param_tbl => calbus_seq_param_tbl(0),
-            calbus_clk           => calbus_clk(0)
-        );
+    -- ddr4_g: if (MEM_PORTS > 0) generate
+    --     ddr4_ch0_i : component onboard_ddr4
+    --     port map (
+    --         local_reset_req      => emif_rst_req(0),
+    --         local_reset_done     => emif_rst_done(0),
+    --         pll_ref_clk          => DDR4_CH0_REF_CLK,
+    --         pll_locked           => mem_pll_locked(0),
+    --         oct_rzqin            => DDR4_CH0_OCT_RZQIN,
+    --         mem_ck(0)            => DDR4_CH0_CK,
+    --         mem_ck_n(0)          => DDR4_CH0_CK_N,
+    --         mem_a                => DDR4_CH0_A,
+    --         mem_act_n(0)         => DDR4_CH0_ACT_N,
+    --         mem_ba               => DDR4_CH0_BA,
+    --         mem_bg(0)            => DDR4_CH0_BG,
+    --         mem_cke(0)           => DDR4_CH0_CKE,
+    --         mem_cs_n             => DDR4_CH0_CS_N,
+    --         mem_odt(0)           => DDR4_CH0_ODT,
+    --         mem_reset_n(0)       => DDR4_CH0_RESET_N,
+    --         mem_par(0)           => DDR4_CH0_PAR,
+    --         mem_alert_n(0)       => DDR4_CH0_ALERT_N,
+    --         mem_dqs              => DDR4_CH0_DQS,
+    --         mem_dqs_n            => DDR4_CH0_DQS_N,
+    --         mem_dq               => DDR4_CH0_DQ,
+    --         mem_dbi_n            => DDR4_CH0_DBI_N,
+    --         local_cal_success    => emif_cal_success(0),
+    --         local_cal_fail       => emif_cal_fail(0),
+    --         emif_usr_reset_n     => mem_rst_n(0),
+    --         emif_usr_clk         => mem_clk(0),
+    --         amm_ready_0          => mem_avmm_ready(0),
+    --         amm_read_0           => mem_avmm_read(0),
+    --         amm_write_0          => mem_avmm_write(0),
+    --         amm_address_0        => mem_avmm_address(0),
+    --         amm_readdata_0       => mem_avmm_readdata(0),
+    --         amm_writedata_0      => mem_avmm_writedata(0),
+    --         amm_burstcount_0     => mem_avmm_burstcount(0),
+    --         amm_readdatavalid_0  => mem_avmm_readdatavalid(0),
+    --         calbus_read          => calbus_read(0),
+    --         calbus_write         => calbus_write(0),
+    --         calbus_address       => calbus_address(0),
+    --         calbus_wdata         => calbus_wdata(0),
+    --         calbus_rdata         => calbus_rdata(0),
+    --         calbus_seq_param_tbl => calbus_seq_param_tbl(0),
+    --         calbus_clk           => calbus_clk(0)
+    --     );
 
-        ddr4_ch1_i : component onboard_ddr4
-        port map (
-            local_reset_req      => emif_rst_req(1),
-            local_reset_done     => emif_rst_done(1),
-            pll_ref_clk          => DDR4_CH1_REF_CLK,
-            pll_locked           => mem_pll_locked(1),
-            oct_rzqin            => DDR4_CH1_OCT_RZQIN,
-            mem_ck(0)            => DDR4_CH1_CK,
-            mem_ck_n(0)          => DDR4_CH1_CK_N,
-            mem_a                => DDR4_CH1_A,
-            mem_act_n(0)         => DDR4_CH1_ACT_N,
-            mem_ba               => DDR4_CH1_BA,
-            mem_bg(0)            => DDR4_CH1_BG,
-            mem_cke(0)           => DDR4_CH1_CKE,
-            mem_cs_n             => DDR4_CH1_CS_N,
-            mem_odt(0)           => DDR4_CH1_ODT,
-            mem_reset_n(0)       => DDR4_CH1_RESET_N,
-            mem_par(0)           => DDR4_CH1_PAR,
-            mem_alert_n(0)       => DDR4_CH1_ALERT_N,
-            mem_dqs              => DDR4_CH1_DQS,
-            mem_dqs_n            => DDR4_CH1_DQS_N,
-            mem_dq               => DDR4_CH1_DQ,
-            mem_dbi_n            => DDR4_CH1_DBI_N,
-            local_cal_success    => emif_cal_success(1),
-            local_cal_fail       => emif_cal_fail(1),
-            emif_usr_reset_n     => mem_rst_n(1),
-            emif_usr_clk         => mem_clk(1),
-            amm_ready_0          => mem_avmm_ready(1),
-            amm_read_0           => mem_avmm_read(1),
-            amm_write_0          => mem_avmm_write(1),
-            amm_address_0        => mem_avmm_address(1),
-            amm_readdata_0       => mem_avmm_readdata(1),
-            amm_writedata_0      => mem_avmm_writedata(1),
-            amm_burstcount_0     => mem_avmm_burstcount(1),
-            amm_readdatavalid_0  => mem_avmm_readdatavalid(1),
-            calbus_read          => calbus_read(1),
-            calbus_write         => calbus_write(1),
-            calbus_address       => calbus_address(1),
-            calbus_wdata         => calbus_wdata(1),
-            calbus_rdata         => calbus_rdata(1),
-            calbus_seq_param_tbl => calbus_seq_param_tbl(1),
-            calbus_clk           => calbus_clk(1)
-        );
+    --     ddr4_ch1_i : component onboard_ddr4
+    --     port map (
+    --         local_reset_req      => emif_rst_req(1),
+    --         local_reset_done     => emif_rst_done(1),
+    --         pll_ref_clk          => DDR4_CH1_REF_CLK,
+    --         pll_locked           => mem_pll_locked(1),
+    --         oct_rzqin            => DDR4_CH1_OCT_RZQIN,
+    --         mem_ck(0)            => DDR4_CH1_CK,
+    --         mem_ck_n(0)          => DDR4_CH1_CK_N,
+    --         mem_a                => DDR4_CH1_A,
+    --         mem_act_n(0)         => DDR4_CH1_ACT_N,
+    --         mem_ba               => DDR4_CH1_BA,
+    --         mem_bg(0)            => DDR4_CH1_BG,
+    --         mem_cke(0)           => DDR4_CH1_CKE,
+    --         mem_cs_n             => DDR4_CH1_CS_N,
+    --         mem_odt(0)           => DDR4_CH1_ODT,
+    --         mem_reset_n(0)       => DDR4_CH1_RESET_N,
+    --         mem_par(0)           => DDR4_CH1_PAR,
+    --         mem_alert_n(0)       => DDR4_CH1_ALERT_N,
+    --         mem_dqs              => DDR4_CH1_DQS,
+    --         mem_dqs_n            => DDR4_CH1_DQS_N,
+    --         mem_dq               => DDR4_CH1_DQ,
+    --         mem_dbi_n            => DDR4_CH1_DBI_N,
+    --         local_cal_success    => emif_cal_success(1),
+    --         local_cal_fail       => emif_cal_fail(1),
+    --         emif_usr_reset_n     => mem_rst_n(1),
+    --         emif_usr_clk         => mem_clk(1),
+    --         amm_ready_0          => mem_avmm_ready(1),
+    --         amm_read_0           => mem_avmm_read(1),
+    --         amm_write_0          => mem_avmm_write(1),
+    --         amm_address_0        => mem_avmm_address(1),
+    --         amm_readdata_0       => mem_avmm_readdata(1),
+    --         amm_writedata_0      => mem_avmm_writedata(1),
+    --         amm_burstcount_0     => mem_avmm_burstcount(1),
+    --         amm_readdatavalid_0  => mem_avmm_readdatavalid(1),
+    --         calbus_read          => calbus_read(1),
+    --         calbus_write         => calbus_write(1),
+    --         calbus_address       => calbus_address(1),
+    --         calbus_wdata         => calbus_wdata(1),
+    --         calbus_rdata         => calbus_rdata(1),
+    --         calbus_seq_param_tbl => calbus_seq_param_tbl(1),
+    --         calbus_clk           => calbus_clk(1)
+    --     );
 
-        ddr4_ch2_i : component onboard_ddr4
-        port map (
-            local_reset_req      => emif_rst_req(2),
-            local_reset_done     => emif_rst_done(2),
-            pll_ref_clk          => DDR4_CH2_REF_CLK,
-            pll_locked           => mem_pll_locked(2),
-            oct_rzqin            => DDR4_CH2_OCT_RZQIN,
-            mem_ck(0)            => DDR4_CH2_CK,
-            mem_ck_n(0)          => DDR4_CH2_CK_N,
-            mem_a                => DDR4_CH2_A,
-            mem_act_n(0)         => DDR4_CH2_ACT_N,
-            mem_ba               => DDR4_CH2_BA,
-            mem_bg(0)            => DDR4_CH2_BG,
-            mem_cke(0)           => DDR4_CH2_CKE,
-            mem_cs_n             => DDR4_CH2_CS_N,
-            mem_odt(0)           => DDR4_CH2_ODT,
-            mem_reset_n(0)       => DDR4_CH2_RESET_N,
-            mem_par(0)           => DDR4_CH2_PAR,
-            mem_alert_n(0)       => DDR4_CH2_ALERT_N,
-            mem_dqs              => DDR4_CH2_DQS,
-            mem_dqs_n            => DDR4_CH2_DQS_N,
-            mem_dq               => DDR4_CH2_DQ,
-            mem_dbi_n            => DDR4_CH2_DBI_N,
-            local_cal_success    => emif_cal_success(2),
-            local_cal_fail       => emif_cal_fail(2),
-            emif_usr_reset_n     => mem_rst_n(2),
-            emif_usr_clk         => mem_clk(2),
-            amm_ready_0          => mem_avmm_ready(2),
-            amm_read_0           => mem_avmm_read(2),
-            amm_write_0          => mem_avmm_write(2),
-            amm_address_0        => mem_avmm_address(2),
-            amm_readdata_0       => mem_avmm_readdata(2),
-            amm_writedata_0      => mem_avmm_writedata(2),
-            amm_burstcount_0     => mem_avmm_burstcount(2),
-            amm_readdatavalid_0  => mem_avmm_readdatavalid(2),
-            calbus_read          => calbus_read(2),
-            calbus_write         => calbus_write(2),
-            calbus_address       => calbus_address(2),
-            calbus_wdata         => calbus_wdata(2),
-            calbus_rdata         => calbus_rdata(2),
-            calbus_seq_param_tbl => calbus_seq_param_tbl(2),
-            calbus_clk           => calbus_clk(2)
-        );
+    --     ddr4_ch2_i : component onboard_ddr4
+    --     port map (
+    --         local_reset_req      => emif_rst_req(2),
+    --         local_reset_done     => emif_rst_done(2),
+    --         pll_ref_clk          => DDR4_CH2_REF_CLK,
+    --         pll_locked           => mem_pll_locked(2),
+    --         oct_rzqin            => DDR4_CH2_OCT_RZQIN,
+    --         mem_ck(0)            => DDR4_CH2_CK,
+    --         mem_ck_n(0)          => DDR4_CH2_CK_N,
+    --         mem_a                => DDR4_CH2_A,
+    --         mem_act_n(0)         => DDR4_CH2_ACT_N,
+    --         mem_ba               => DDR4_CH2_BA,
+    --         mem_bg(0)            => DDR4_CH2_BG,
+    --         mem_cke(0)           => DDR4_CH2_CKE,
+    --         mem_cs_n             => DDR4_CH2_CS_N,
+    --         mem_odt(0)           => DDR4_CH2_ODT,
+    --         mem_reset_n(0)       => DDR4_CH2_RESET_N,
+    --         mem_par(0)           => DDR4_CH2_PAR,
+    --         mem_alert_n(0)       => DDR4_CH2_ALERT_N,
+    --         mem_dqs              => DDR4_CH2_DQS,
+    --         mem_dqs_n            => DDR4_CH2_DQS_N,
+    --         mem_dq               => DDR4_CH2_DQ,
+    --         mem_dbi_n            => DDR4_CH2_DBI_N,
+    --         local_cal_success    => emif_cal_success(2),
+    --         local_cal_fail       => emif_cal_fail(2),
+    --         emif_usr_reset_n     => mem_rst_n(2),
+    --         emif_usr_clk         => mem_clk(2),
+    --         amm_ready_0          => mem_avmm_ready(2),
+    --         amm_read_0           => mem_avmm_read(2),
+    --         amm_write_0          => mem_avmm_write(2),
+    --         amm_address_0        => mem_avmm_address(2),
+    --         amm_readdata_0       => mem_avmm_readdata(2),
+    --         amm_writedata_0      => mem_avmm_writedata(2),
+    --         amm_burstcount_0     => mem_avmm_burstcount(2),
+    --         amm_readdatavalid_0  => mem_avmm_readdatavalid(2),
+    --         calbus_read          => calbus_read(2),
+    --         calbus_write         => calbus_write(2),
+    --         calbus_address       => calbus_address(2),
+    --         calbus_wdata         => calbus_wdata(2),
+    --         calbus_rdata         => calbus_rdata(2),
+    --         calbus_seq_param_tbl => calbus_seq_param_tbl(2),
+    --         calbus_clk           => calbus_clk(2)
+    --     );
 
-        ddr4_ch3_i : component onboard_ddr4
-        port map (
-            local_reset_req      => emif_rst_req(3),
-            local_reset_done     => emif_rst_done(3),
-            pll_ref_clk          => DDR4_CH3_REF_CLK,
-            pll_locked           => mem_pll_locked(3),
-            oct_rzqin            => DDR4_CH3_OCT_RZQIN,
-            mem_ck(0)            => DDR4_CH3_CK,
-            mem_ck_n(0)          => DDR4_CH3_CK_N,
-            mem_a                => DDR4_CH3_A,
-            mem_act_n(0)         => DDR4_CH3_ACT_N,
-            mem_ba               => DDR4_CH3_BA,
-            mem_bg(0)            => DDR4_CH3_BG,
-            mem_cke(0)           => DDR4_CH3_CKE,
-            mem_cs_n             => DDR4_CH3_CS_N,
-            mem_odt(0)           => DDR4_CH3_ODT,
-            mem_reset_n(0)       => DDR4_CH3_RESET_N,
-            mem_par(0)           => DDR4_CH3_PAR,
-            mem_alert_n(0)       => DDR4_CH3_ALERT_N,
-            mem_dqs              => DDR4_CH3_DQS,
-            mem_dqs_n            => DDR4_CH3_DQS_N,
-            mem_dq               => DDR4_CH3_DQ,
-            mem_dbi_n            => DDR4_CH3_DBI_N,
-            local_cal_success    => emif_cal_success(3),
-            local_cal_fail       => emif_cal_fail(3),
-            emif_usr_reset_n     => mem_rst_n(3),
-            emif_usr_clk         => mem_clk(3),
-            amm_ready_0          => mem_avmm_ready(3),
-            amm_read_0           => mem_avmm_read(3),
-            amm_write_0          => mem_avmm_write(3),
-            amm_address_0        => mem_avmm_address(3),
-            amm_readdata_0       => mem_avmm_readdata(3),
-            amm_writedata_0      => mem_avmm_writedata(3),
-            amm_burstcount_0     => mem_avmm_burstcount(3),
-            amm_readdatavalid_0  => mem_avmm_readdatavalid(3),
-            calbus_read          => calbus_read(3),
-            calbus_write         => calbus_write(3),
-            calbus_address       => calbus_address(3),
-            calbus_wdata         => calbus_wdata(3),
-            calbus_rdata         => calbus_rdata(3),
-            calbus_seq_param_tbl => calbus_seq_param_tbl(3),
-            calbus_clk           => calbus_clk(3)
-        );
+    --     ddr4_ch3_i : component onboard_ddr4
+    --     port map (
+    --         local_reset_req      => emif_rst_req(3),
+    --         local_reset_done     => emif_rst_done(3),
+    --         pll_ref_clk          => DDR4_CH3_REF_CLK,
+    --         pll_locked           => mem_pll_locked(3),
+    --         oct_rzqin            => DDR4_CH3_OCT_RZQIN,
+    --         mem_ck(0)            => DDR4_CH3_CK,
+    --         mem_ck_n(0)          => DDR4_CH3_CK_N,
+    --         mem_a                => DDR4_CH3_A,
+    --         mem_act_n(0)         => DDR4_CH3_ACT_N,
+    --         mem_ba               => DDR4_CH3_BA,
+    --         mem_bg(0)            => DDR4_CH3_BG,
+    --         mem_cke(0)           => DDR4_CH3_CKE,
+    --         mem_cs_n             => DDR4_CH3_CS_N,
+    --         mem_odt(0)           => DDR4_CH3_ODT,
+    --         mem_reset_n(0)       => DDR4_CH3_RESET_N,
+    --         mem_par(0)           => DDR4_CH3_PAR,
+    --         mem_alert_n(0)       => DDR4_CH3_ALERT_N,
+    --         mem_dqs              => DDR4_CH3_DQS,
+    --         mem_dqs_n            => DDR4_CH3_DQS_N,
+    --         mem_dq               => DDR4_CH3_DQ,
+    --         mem_dbi_n            => DDR4_CH3_DBI_N,
+    --         local_cal_success    => emif_cal_success(3),
+    --         local_cal_fail       => emif_cal_fail(3),
+    --         emif_usr_reset_n     => mem_rst_n(3),
+    --         emif_usr_clk         => mem_clk(3),
+    --         amm_ready_0          => mem_avmm_ready(3),
+    --         amm_read_0           => mem_avmm_read(3),
+    --         amm_write_0          => mem_avmm_write(3),
+    --         amm_address_0        => mem_avmm_address(3),
+    --         amm_readdata_0       => mem_avmm_readdata(3),
+    --         amm_writedata_0      => mem_avmm_writedata(3),
+    --         amm_burstcount_0     => mem_avmm_burstcount(3),
+    --         amm_readdatavalid_0  => mem_avmm_readdatavalid(3),
+    --         calbus_read          => calbus_read(3),
+    --         calbus_write         => calbus_write(3),
+    --         calbus_address       => calbus_address(3),
+    --         calbus_wdata         => calbus_wdata(3),
+    --         calbus_rdata         => calbus_rdata(3),
+    --         calbus_seq_param_tbl => calbus_seq_param_tbl(3),
+    --         calbus_clk           => calbus_clk(3)
+    --     );
 
-        ddr4_cal0_i : component ddr4_calibration
-        port map (
-            calbus_read_0          => calbus_read(0),
-            calbus_write_0         => calbus_write(0),
-            calbus_address_0       => calbus_address(0),
-            calbus_wdata_0         => calbus_wdata(0),
-            calbus_rdata_0         => calbus_rdata(0),
-            calbus_seq_param_tbl_0 => calbus_seq_param_tbl(0),
-            calbus_read_1          => calbus_read(1),
-            calbus_write_1         => calbus_write(1),
-            calbus_address_1       => calbus_address(1),
-            calbus_wdata_1         => calbus_wdata(1),
-            calbus_rdata_1         => calbus_rdata(1),
-            calbus_seq_param_tbl_1 => calbus_seq_param_tbl(1),
-            calbus_clk             => calbus_clk(0)
-        );
+    --     ddr4_cal0_i : component ddr4_calibration
+    --     port map (
+    --         calbus_read_0          => calbus_read(0),
+    --         calbus_write_0         => calbus_write(0),
+    --         calbus_address_0       => calbus_address(0),
+    --         calbus_wdata_0         => calbus_wdata(0),
+    --         calbus_rdata_0         => calbus_rdata(0),
+    --         calbus_seq_param_tbl_0 => calbus_seq_param_tbl(0),
+    --         calbus_read_1          => calbus_read(1),
+    --         calbus_write_1         => calbus_write(1),
+    --         calbus_address_1       => calbus_address(1),
+    --         calbus_wdata_1         => calbus_wdata(1),
+    --         calbus_rdata_1         => calbus_rdata(1),
+    --         calbus_seq_param_tbl_1 => calbus_seq_param_tbl(1),
+    --         calbus_clk             => calbus_clk(0)
+    --     );
 
-        calbus_clk(1) <= calbus_clk(0);
+    --     calbus_clk(1) <= calbus_clk(0);
 
-        ddr4_cal1_i : component ddr4_calibration
-        port map (
-            calbus_read_0          => calbus_read(2),
-            calbus_write_0         => calbus_write(2),
-            calbus_address_0       => calbus_address(2),
-            calbus_wdata_0         => calbus_wdata(2),
-            calbus_rdata_0         => calbus_rdata(2),
-            calbus_seq_param_tbl_0 => calbus_seq_param_tbl(2),
-            calbus_read_1          => calbus_read(3),
-            calbus_write_1         => calbus_write(3),
-            calbus_address_1       => calbus_address(3),
-            calbus_wdata_1         => calbus_wdata(3),
-            calbus_rdata_1         => calbus_rdata(3),
-            calbus_seq_param_tbl_1 => calbus_seq_param_tbl(3),
-            calbus_clk             => calbus_clk(2)
-        );
+    --     ddr4_cal1_i : component ddr4_calibration
+    --     port map (
+    --         calbus_read_0          => calbus_read(2),
+    --         calbus_write_0         => calbus_write(2),
+    --         calbus_address_0       => calbus_address(2),
+    --         calbus_wdata_0         => calbus_wdata(2),
+    --         calbus_rdata_0         => calbus_rdata(2),
+    --         calbus_seq_param_tbl_0 => calbus_seq_param_tbl(2),
+    --         calbus_read_1          => calbus_read(3),
+    --         calbus_write_1         => calbus_write(3),
+    --         calbus_address_1       => calbus_address(3),
+    --         calbus_wdata_1         => calbus_wdata(3),
+    --         calbus_rdata_1         => calbus_rdata(3),
+    --         calbus_seq_param_tbl_1 => calbus_seq_param_tbl(3),
+    --         calbus_clk             => calbus_clk(2)
+    --     );
 
-        calbus_clk(3) <= calbus_clk(2);
-    else generate
-        DDR4_CH0_BG      <= 'Z';
-        DDR4_CH0_BA      <= (others => 'Z');
-        DDR4_CH0_A       <= (others => 'Z');
-        DDR4_CH0_PAR     <= 'Z';
-        DDR4_CH0_CK_N    <= 'Z';
-        DDR4_CH0_CK      <= 'Z';
-        DDR4_CH0_CKE     <= 'Z';
-        DDR4_CH0_ODT     <= 'Z';
-        DDR4_CH0_ACT_N   <= 'Z';
-        DDR4_CH0_CS_N    <= (others => 'Z');
-        DDR4_CH0_RESET_N <= 'Z';
-        DDR4_CH0_DQS     <= (others => 'Z');
-        DDR4_CH0_DQS_N   <= (others => 'Z');
-        DDR4_CH0_DQ      <= (others => 'Z');
-        DDR4_CH0_DBI_N   <= (others => 'Z');
+    --     calbus_clk(3) <= calbus_clk(2);
+    -- else generate
+    --     DDR4_CH0_BG      <= 'Z';
+    --     DDR4_CH0_BA      <= (others => 'Z');
+    --     DDR4_CH0_A       <= (others => 'Z');
+    --     DDR4_CH0_PAR     <= 'Z';
+    --     DDR4_CH0_CK_N    <= 'Z';
+    --     DDR4_CH0_CK      <= 'Z';
+    --     DDR4_CH0_CKE     <= 'Z';
+    --     DDR4_CH0_ODT     <= 'Z';
+    --     DDR4_CH0_ACT_N   <= 'Z';
+    --     DDR4_CH0_CS_N    <= (others => 'Z');
+    --     DDR4_CH0_RESET_N <= 'Z';
+    --     DDR4_CH0_DQS     <= (others => 'Z');
+    --     DDR4_CH0_DQS_N   <= (others => 'Z');
+    --     DDR4_CH0_DQ      <= (others => 'Z');
+    --     DDR4_CH0_DBI_N   <= (others => 'Z');
 
-        DDR4_CH1_BG      <= 'Z';
-        DDR4_CH1_BA      <= (others => 'Z');
-        DDR4_CH1_A       <= (others => 'Z');
-        DDR4_CH1_PAR     <= 'Z';
-        DDR4_CH1_CK_N    <= 'Z';
-        DDR4_CH1_CK      <= 'Z';
-        DDR4_CH1_CKE     <= 'Z';
-        DDR4_CH1_ODT     <= 'Z';
-        DDR4_CH1_ACT_N   <= 'Z';
-        DDR4_CH1_CS_N    <= (others => 'Z');
-        DDR4_CH1_RESET_N <= 'Z';
-        DDR4_CH1_DQS     <= (others => 'Z');
-        DDR4_CH1_DQS_N   <= (others => 'Z');
-        DDR4_CH1_DQ      <= (others => 'Z');
-        DDR4_CH1_DBI_N   <= (others => 'Z');
+    --     DDR4_CH1_BG      <= 'Z';
+    --     DDR4_CH1_BA      <= (others => 'Z');
+    --     DDR4_CH1_A       <= (others => 'Z');
+    --     DDR4_CH1_PAR     <= 'Z';
+    --     DDR4_CH1_CK_N    <= 'Z';
+    --     DDR4_CH1_CK      <= 'Z';
+    --     DDR4_CH1_CKE     <= 'Z';
+    --     DDR4_CH1_ODT     <= 'Z';
+    --     DDR4_CH1_ACT_N   <= 'Z';
+    --     DDR4_CH1_CS_N    <= (others => 'Z');
+    --     DDR4_CH1_RESET_N <= 'Z';
+    --     DDR4_CH1_DQS     <= (others => 'Z');
+    --     DDR4_CH1_DQS_N   <= (others => 'Z');
+    --     DDR4_CH1_DQ      <= (others => 'Z');
+    --     DDR4_CH1_DBI_N   <= (others => 'Z');
 
-        DDR4_CH2_BG      <= 'Z';
-        DDR4_CH2_BA      <= (others => 'Z');
-        DDR4_CH2_A       <= (others => 'Z');
-        DDR4_CH2_PAR     <= 'Z';
-        DDR4_CH2_CK_N    <= 'Z';
-        DDR4_CH2_CK      <= 'Z';
-        DDR4_CH2_CKE     <= 'Z';
-        DDR4_CH2_ODT     <= 'Z';
-        DDR4_CH2_ACT_N   <= 'Z';
-        DDR4_CH2_CS_N    <= (others => 'Z');
-        DDR4_CH2_RESET_N <= 'Z';
-        DDR4_CH2_DQS     <= (others => 'Z');
-        DDR4_CH2_DQS_N   <= (others => 'Z');
-        DDR4_CH2_DQ      <= (others => 'Z');
-        DDR4_CH2_DBI_N   <= (others => 'Z');
+    --     DDR4_CH2_BG      <= 'Z';
+    --     DDR4_CH2_BA      <= (others => 'Z');
+    --     DDR4_CH2_A       <= (others => 'Z');
+    --     DDR4_CH2_PAR     <= 'Z';
+    --     DDR4_CH2_CK_N    <= 'Z';
+    --     DDR4_CH2_CK      <= 'Z';
+    --     DDR4_CH2_CKE     <= 'Z';
+    --     DDR4_CH2_ODT     <= 'Z';
+    --     DDR4_CH2_ACT_N   <= 'Z';
+    --     DDR4_CH2_CS_N    <= (others => 'Z');
+    --     DDR4_CH2_RESET_N <= 'Z';
+    --     DDR4_CH2_DQS     <= (others => 'Z');
+    --     DDR4_CH2_DQS_N   <= (others => 'Z');
+    --     DDR4_CH2_DQ      <= (others => 'Z');
+    --     DDR4_CH2_DBI_N   <= (others => 'Z');
 
-        DDR4_CH3_BG      <= 'Z';
-        DDR4_CH3_BA      <= (others => 'Z');
-        DDR4_CH3_A       <= (others => 'Z');
-        DDR4_CH3_PAR     <= 'Z';
-        DDR4_CH3_CK_N    <= 'Z';
-        DDR4_CH3_CK      <= 'Z';
-        DDR4_CH3_CKE     <= 'Z';
-        DDR4_CH3_ODT     <= 'Z';
-        DDR4_CH3_ACT_N   <= 'Z';
-        DDR4_CH3_CS_N    <= (others => 'Z');
-        DDR4_CH3_RESET_N <= 'Z';
-        DDR4_CH3_DQS     <= (others => 'Z');
-        DDR4_CH3_DQS_N   <= (others => 'Z');
-        DDR4_CH3_DQ      <= (others => 'Z');
-        DDR4_CH3_DBI_N   <= (others => 'Z');
-    end generate;
+    --     DDR4_CH3_BG      <= 'Z';
+    --     DDR4_CH3_BA      <= (others => 'Z');
+    --     DDR4_CH3_A       <= (others => 'Z');
+    --     DDR4_CH3_PAR     <= 'Z';
+    --     DDR4_CH3_CK_N    <= 'Z';
+    --     DDR4_CH3_CK      <= 'Z';
+    --     DDR4_CH3_CKE     <= 'Z';
+    --     DDR4_CH3_ODT     <= 'Z';
+    --     DDR4_CH3_ACT_N   <= 'Z';
+    --     DDR4_CH3_CS_N    <= (others => 'Z');
+    --     DDR4_CH3_RESET_N <= 'Z';
+    --     DDR4_CH3_DQS     <= (others => 'Z');
+    --     DDR4_CH3_DQS_N   <= (others => 'Z');
+    --     DDR4_CH3_DQ      <= (others => 'Z');
+    --     DDR4_CH3_DBI_N   <= (others => 'Z');
+    -- end generate;
 
 end architecture;

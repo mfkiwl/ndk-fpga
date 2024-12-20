@@ -13,7 +13,7 @@ set PROJECT_NAME ""
 # ETH parameters:
 # ------------------------------------------------------------------------------
 # Number of Ethernet ports, must match number of items in list ETH_PORTS_SPEED!
-set ETH_PORTS         2
+set ETH_PORTS         $env(ETH_PORTS)
 # Speed for each one of the ETH_PORTS (allowed values: 100, 25, 10)
 # ETH_PORT_SPEED is an array where each index represents given ETH_PORT and
 # each index has associated a required port speed.
