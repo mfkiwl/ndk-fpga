@@ -1161,7 +1161,7 @@ begin
             AXI_CCUSER_WIDTH   => AXI_CCUSER_WIDTH,
             AXI_RQUSER_WIDTH   => AXI_RQUSER_WIDTH,
             AXI_RCUSER_WIDTH   => AXI_RCUSER_WIDTH,
-            AXI_STRADDLING     => false
+            AXI_STRADDLING     => true
         )
         port map (
             PCIE_CLK            => pcie_clk(i),
