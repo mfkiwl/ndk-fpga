@@ -93,36 +93,52 @@ end entity;
 architecture full of PCIE_CC_MFB2AXI is
     constant EOP_POS_WIDTH : integer := max(1,log2(MFB_REGION_SIZE*MFB_BLOCK_SIZE));
     signal cc_keep         : std_logic_vector(AXI_DATA_WIDTH/32-1 downto 0);
+   signal cc_mfb_eof_pos_arr : slv_array_t(MFB_REGIONS-1 downto 0)(EOP_POS_WIDTH-1 downto 0);
 begin
     assert (AXI_CCUSER_WIDTH = 33 or AXI_CCUSER_WIDTH = 81)
     report "PCIE_CC_MFB2AXI: Unsupported AXI CC USER port width, the supported are: 33, 81"
         severity FAILURE;
 
-        -- No straddling supported!
-        -- keep signal serves as valid for each DWORD of CC_AXI_DATA signal
-        axi_512b_g: if (MFB_REGIONS = 2) generate
-        s_cc_keep_pr : process (all)
-            begin
-                if (CC_MFB_EOF(0) = '1') then -- end of data in first region
-                    cc_keep <= (others => '0');
+    -- No straddling supported!
+    -- keep signal serves as valid for each DWORD of CC_AXI_DATA signal
+    axi_512b_g: if (MFB_REGIONS = 2) generate
+        cc_mfb_eof_pos_arr <= slv_array_downto_deser(CC_MFB_EOF_POS, MFB_REGIONS, EOP_POS_WIDTH);
 
-                    for i in 0 to AXI_DATA_WIDTH/32-1 loop
-                        cc_keep(i) <= '1';
-                        exit when (i = to_integer(unsigned(CC_MFB_EOF_POS(EOP_POS_WIDTH-1 downto 0))));
-                    end loop;
+        cc_axi_user_assign_p: process (all) is
+        begin
+            CC_AXI_USER <= (others => '0');
 
-                elsif (CC_MFB_EOF(1) = '1') then -- end of data in second region
-                    cc_keep <= (others => '0');
+            CC_AXI_USER(1 downto 0) <= CC_MFB_SOF;
+            CC_AXI_USER(3 downto 2) <= "10" when (CC_MFB_SOF = "10") else "00";
+            CC_AXI_USER(5 downto 4) <= "10";
 
-                    for i in 0 to AXI_DATA_WIDTH/32-1 loop
-                        cc_keep(i) <= '1';
-                        exit when (i = ((AXI_DATA_WIDTH/32)/2) + to_integer(unsigned(CC_MFB_EOF_POS(2*EOP_POS_WIDTH-1 downto EOP_POS_WIDTH))));
-                    end loop;
+            CC_AXI_USER(7 downto 6)   <= CC_MFB_EOF;
+            CC_AXI_USER(11 downto 8)  <= '1' & cc_mfb_eof_pos_arr(1) when (CC_MFB_EOF = "10") else '0' & cc_mfb_eof_pos_arr(0);
+            CC_AXI_USER(15 downto 12) <= '1' & cc_mfb_eof_pos_arr(1);
+        end process;
 
-                else -- start or middle of data
-                    cc_keep <= (others => '1');
-                end if;
-            end process;
+        -- s_cc_keep_pr : process (all)
+        --     begin
+        --         if (CC_MFB_EOF(0) = '1') then -- end of data in first region
+        --             cc_keep <= (others => '0');
+
+        --             for i in 0 to AXI_DATA_WIDTH/32-1 loop
+        --                 cc_keep(i) <= '1';
+        --                 exit when (i = to_integer(unsigned(CC_MFB_EOF_POS(EOP_POS_WIDTH-1 downto 0))));
+        --             end loop;
+
+        --         elsif (CC_MFB_EOF(1) = '1') then -- end of data in second region
+        --             cc_keep <= (others => '0');
+
+        --             for i in 0 to AXI_DATA_WIDTH/32-1 loop
+        --                 cc_keep(i) <= '1';
+        --                 exit when (i = ((AXI_DATA_WIDTH/32)/2) + to_integer(unsigned(CC_MFB_EOF_POS(2*EOP_POS_WIDTH-1 downto EOP_POS_WIDTH))));
+        --             end loop;
+
+        --         else -- start or middle of data
+        --             cc_keep <= (others => '1');
+        --         end if;
+        --     end process;
     else generate
         s_cc_keep_pr : process (all)
         begin
@@ -140,8 +156,8 @@ begin
     end generate;
 
     CC_AXI_DATA    <= CC_MFB_DATA;
-    CC_AXI_KEEP    <= cc_keep;
-    CC_AXI_USER    <= (others => '0');
+    -- CC_AXI_KEEP    <= cc_keep;
+    -- CC_AXI_USER    <= (others => '0');
     CC_AXI_LAST    <= or CC_MFB_EOF;
     CC_AXI_VALID   <= CC_MFB_SRC_RDY;
     CC_MFB_DST_RDY <= CC_AXI_READY;
