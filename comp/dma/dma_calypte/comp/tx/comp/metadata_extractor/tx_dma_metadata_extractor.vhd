@@ -170,7 +170,8 @@ architecture FULL of TX_DMA_METADATA_EXTRACTOR is
     -- =============================================================================================
     -- Debug signals and attributes
     -- =============================================================================================
-    attribute preserve_for_debug : boolean;
+    -- attribute preserve_for_debug : boolean;
+    attribute mark_debug : string;
 
     signal aux_mfb_meta_is_dma_hdr : std_logic_vector(PCIE_MFB_REGIONS -1 downto 0);
     signal aux_mfb_meta_pcie_addr  : slv_array_t(PCIE_MFB_REGIONS -1 downto 0)(META_PCIE_ADDR_W -1 downto 0);
@@ -179,24 +180,24 @@ architecture FULL of TX_DMA_METADATA_EXTRACTOR is
     signal aux_mfb_meta_lbe   : slv_array_t(PCIE_MFB_REGIONS -1 downto 0)(META_LBE_W -1 downto 0);
     signal aux_mfb_meta_fbe   : slv_array_t(PCIE_MFB_REGIONS -1 downto 0)(META_FBE_W -1 downto 0);
 
-    attribute preserve_for_debug of mfb_aux_item_be         : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_meta_is_dma_hdr : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_meta_pcie_addr  : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_meta_chan_num   : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_meta_byte_cnt   : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_meta_lbe        : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_meta_fbe        : signal is TRUE;
+    attribute mark_debug of mfb_aux_item_be         : signal is "true";
+    attribute mark_debug of aux_mfb_meta_is_dma_hdr : signal is "true";
+    attribute mark_debug of aux_mfb_meta_pcie_addr  : signal is "true";
+    attribute mark_debug of aux_mfb_meta_chan_num   : signal is "true";
+    attribute mark_debug of aux_mfb_meta_byte_cnt   : signal is "true";
+    attribute mark_debug of aux_mfb_meta_lbe        : signal is "true";
+    attribute mark_debug of aux_mfb_meta_fbe        : signal is "true";
 
-    attribute preserve_for_debug of aux_mfb_data    : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_sof     : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_eof     : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_sof_pos : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_eof_pos : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_src_rdy : signal is TRUE;
-    attribute preserve_for_debug of aux_mfb_dst_rdy : signal is TRUE;
+    attribute mark_debug of aux_mfb_data    : signal is "true";
+    attribute mark_debug of aux_mfb_sof     : signal is "true";
+    attribute mark_debug of aux_mfb_eof     : signal is "true";
+    attribute mark_debug of aux_mfb_sof_pos : signal is "true";
+    attribute mark_debug of aux_mfb_eof_pos : signal is "true";
+    attribute mark_debug of aux_mfb_src_rdy : signal is "true";
+    attribute mark_debug of aux_mfb_dst_rdy : signal is "true";
 
-    attribute preserve_for_debug of pcie_hdr_fbe : signal is TRUE;
-    attribute preserve_for_debug of pcie_hdr_lbe : signal is TRUE;
+    attribute mark_debug of pcie_hdr_fbe : signal is "true";
+    attribute mark_debug of pcie_hdr_lbe : signal is "true";
 begin
     -- ============================================================================================
     -- DEBUGGING
