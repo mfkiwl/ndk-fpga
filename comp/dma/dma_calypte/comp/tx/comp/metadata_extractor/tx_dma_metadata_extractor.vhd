@@ -386,7 +386,14 @@ begin
                 FBE_OUT => fbe_decoded(i),
                 LBE_OUT => lbe_decoded(i));
 
-        pcie_mfb_meta_int(i) <= lbe_decoded(i) & fbe_decoded(i) & pcie_tr_byte_cnt(i) & (META_BE_W -1 downto 0 => '0') & chan_num_int(i) & pcie_addr_masked(i)(63 downto 2) & is_dma_hdr(i);
+        pcie_mfb_meta_int(i) <=
+            lbe_decoded(i) &
+            fbe_decoded(i) &
+            pcie_tr_byte_cnt(i) &
+            (META_BE_W -1 downto 0 => '0') &
+            chan_num_int(i) &
+            pcie_addr_masked(i)(63 downto 2) &
+            is_dma_hdr(i);
     end generate;
 
     -- Cutter is used only for Xilinx devices
