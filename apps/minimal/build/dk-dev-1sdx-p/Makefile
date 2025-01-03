@@ -14,6 +14,9 @@ CARD_BASE = $(COMBO_BASE)/cards/intel/dk-dev-1sdx-p
 APP_CONF = app_conf.tcl
 OUTPUT_NAME = dk-dev-1sdx-p-minimal
 
+PCIE_CONF=1xGen4x16
+DMA_TYPE=4
+
 .PHONY: all 100g2 25g8 10g8
 
 all: 100g2

@@ -13,12 +13,16 @@ CARD_BASE = $(COMBO_BASE)/cards/amd/vcu118
 APP_CONF = app_conf.tcl
 OUTPUT_NAME = vcu118-minimal
 
+DMA_TYPE=4
+PCIE_CONF=1xGen3x16
+DMA_DEBUG_ENABLE=true
+
 ETH_PORT_SPEED=100
 ETH_PORT_CHAN=1
 
 .PHONY: all 100g2 100g0
 
-all: 100g2
+all: 100g0
 
 100g2: ETH_PORTS=2
 100g2: OUTPUT_NAME:=vcu118-minimal-100g2
