@@ -14,7 +14,7 @@ package test;
 
     parameter DATA_WIDTH          = 16;
     parameter ITEMS               = 16;
-    parameter RAM_TYPE            = "AUTO";
+    parameter RAM_TYPE            = "LUT";
     parameter DEVICE              = "ULTRASCALE";
     parameter ALMOST_FULL_OFFSET  = 0;
     parameter ALMOST_EMPTY_OFFSET = 0;
