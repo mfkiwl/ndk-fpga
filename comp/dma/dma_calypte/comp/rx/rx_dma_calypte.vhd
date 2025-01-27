@@ -57,7 +57,10 @@ entity RX_DMA_CALYPTE is
         -- Enables a register in the transaction buffer that improves throughput (but increases latency).
         TRBUF_REG_EN : boolean := FALSE;
         -- Enables performance counters in the design for metrics.
-        PERF_CNTR_EN : boolean := FALSE
+        PERF_CNTR_EN : boolean := FALSE;
+        -- Size of the transfer segment in bytes. Each incoming packet is split into sements of this
+        -- size..
+        TRANSFER_SEGMENT_SIZE : natural := 128
         );
 
     port (
@@ -108,13 +111,15 @@ end entity;
 
 architecture FULL of RX_DMA_CALYPTE is
 
+    constant BIT_SEGMENT_SIZE : natural := TRANSFER_SEGMENT_SIZE*8;
+
     --=============================================================================================================
     -- Internal MFB configuration
     --=============================================================================================================
     constant MFB_REGION_SIZE_TRBUF2INS : natural := 1;
-    -- the BLOCK_SIZE is set in this way hecause the transition buffer takes 4 MFB words and puts them all on the
-    -- output
-    constant MFB_BLOCK_SIZE_TRBUF2INS  : natural := (1024 / PCIE_UP_MFB_DATA'length)*USER_RX_MFB_REGION_SIZE*USER_RX_MFB_BLOCK_SIZE;
+    -- the BLOCK_SIZE is set in this way hecause the transition buffer takes as many MFB words as is
+    -- necessary to fill a transfer segment.
+    constant MFB_BLOCK_SIZE_TRBUF2INS  : natural := (BIT_SEGMENT_SIZE / PCIE_UP_MFB_DATA'length)*USER_RX_MFB_REGION_SIZE*USER_RX_MFB_BLOCK_SIZE;
     constant MFB_ITEM_WIDTH_TRBUF2INS  : natural := USER_RX_MFB_ITEM_WIDTH;
 
     constant MFB_REGION_SIZE_INBUF2TRBUF : natural := 1;
@@ -122,9 +127,6 @@ architecture FULL of RX_DMA_CALYPTE is
     -- word and it also begins on the LSB of the word
     constant MFB_BLOCK_SIZE_INBUF2TRBUF  : natural := USER_RX_MFB_REGION_SIZE*USER_RX_MFB_BLOCK_SIZE;
     constant MFB_ITEM_WIDTH_INBUF2TRBUF  : natural := USER_RX_MFB_ITEM_WIDTH;
-
-    -- the lengh of the PCIe transaction
-    constant BUFFERED_DATA_SIZE : natural := 128;
     --=============================================================================================================
 
     constant IS_INTEL_DEV    : boolean := (DEVICE = "STRATIX10" or DEVICE = "AGILEX");
@@ -308,6 +310,9 @@ architecture FULL of RX_DMA_CALYPTE is
     -- attribute mark_debug of start_req_vld  : signal is "true";
     -- attribute mark_debug of start_req_done : signal is "true";
 begin
+    assert (TRANSFER_SEGMENT_SIZE = 128 or TRANSFER_SEGMENT_SIZE = 64)
+        report "RX_DMA_CALYPTE: Unallowed value of transfer segment, the only alowed are 64 and 128!"
+        severity FAILURE;
 
     assert (PKT_SIZE_MAX < 2**16)
         report "RX_LL_DMA: the packet size must be set to the number less than 2^16"
@@ -510,13 +515,14 @@ begin
 
     rx_dma_hdr_manager_i : entity work.RX_DMA_CALYPTE_HDR_MANAGER
         generic map (
-            MFB_REGIONS   => USER_RX_MFB_REGIONS,
-            CHANNELS      => CHANNELS,
-            PKT_MTU       => PKT_SIZE_MAX,
-            METADATA_SIZE => HDR_META_WIDTH,
-            ADDR_WIDTH    => SW_ADDR_WIDTH,
-            POINTER_WIDTH => POINTER_WIDTH,
-            DEVICE        => DEVICE)
+            MFB_REGIONS       => USER_RX_MFB_REGIONS,
+            CHANNELS          => CHANNELS,
+            PKT_MTU           => PKT_SIZE_MAX,
+            METADATA_SIZE     => HDR_META_WIDTH,
+            ADDR_WIDTH        => SW_ADDR_WIDTH,
+            POINTER_WIDTH     => POINTER_WIDTH,
+            DATA_SEGMENT_SIZE => TRANSFER_SEGMENT_SIZE,
+            DEVICE            => DEVICE)
         port map (
             CLK   => CLK,
             RESET => RESET,

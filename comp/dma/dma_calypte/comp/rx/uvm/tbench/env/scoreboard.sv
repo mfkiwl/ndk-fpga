@@ -4,8 +4,8 @@
 
 //-- SPDX-License-Identifier: BSD-3-Clause
 
-class scoreboard #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE) extends uvm_scoreboard;
-    `uvm_component_param_utils(uvm_dma_ll::scoreboard #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE))
+class scoreboard #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE) extends uvm_scoreboard;
+    `uvm_component_param_utils(uvm_dma_ll::scoreboard #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE))
 
     localparam LOGIC_WIDTH  = 24 + $clog2(PKT_SIZE_MAX+1) + $clog2(CHANNELS);
 
@@ -25,7 +25,7 @@ class scoreboard #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE) exten
     local uvm_tlm_analysis_fifo #(uvm_logic_vector_array::sequence_item#(32))   model_output;
     local uvm_tlm_analysis_fifo #(uvm_logic_vector::sequence_item#(META_WIDTH)) model_meta_output;
 
-    local model #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE) m_model;
+    local model #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE) m_model;
     local regmodel#(CHANNELS) m_regmodel;
 
     local uvm_common::stats        m_input_speed;
@@ -74,7 +74,7 @@ class scoreboard #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE) exten
 
     //build phase
     function void build_phase(uvm_phase phase);
-        m_model = model #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE)::type_id::create("m_model", this);
+        m_model = model #(ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, META_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE)::type_id::create("m_model", this);
     endfunction
 
     function void connect_phase(uvm_phase phase);

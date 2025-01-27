@@ -96,13 +96,15 @@ architecture FULL of RX_DMA_CALYPTE_HDR_INSERTOR is
     -- On Intel devices, the PCIe header is sent in a TX_MFB_META bus separated from the data on the
     -- TX_MFB_DATA.
     constant IS_INTEL         : boolean := (DEVICE = "STRATIX10") or (DEVICE = "AGILEX");
+    -- Size of the input word in DWords
+    constant RX_MFB_DW_SIZE   : natural := RX_MFB_DATA'length / 32;
 
     signal bshifter_data_out  : std_logic_vector(RX_MFB_DATA'range);
     signal low_shift_val      : std_logic_vector(2 downto 0);
     -- normally the lenght of these signals is set to address each group of 4 blocks on the bus but I made the
     -- signals one bit wider because I use them as a counter of output words in each transaction
-    signal high_shift_val_pst : unsigned(log2(32)-4 downto 0);
-    signal high_shift_val_nst : unsigned(log2(32)-4 downto 0);
+    signal high_shift_val_pst : unsigned(log2(RX_MFB_DW_SIZE)-low_shift_val'length-1 downto 0);
+    signal high_shift_val_nst : unsigned(log2(RX_MFB_DW_SIZE)-low_shift_val'length-1 downto 0);
     signal shift_sel_pst      : std_logic;
     signal shift_sel_nst      : std_logic;
 
@@ -113,17 +115,17 @@ architecture FULL of RX_DMA_CALYPTE_HDR_INSERTOR is
     signal tx_mfb_meta_arr : slv_array_t(TX_REGIONS-1 downto 0)(PCIE_RQ_META_WIDTH-1 downto 0);
 
     -- varies its value according to the generic parameters
-    signal SHIFT_INC  : unsigned(1 downto 0);
-    signal INIT_SHIFT : unsigned(1 downto 0);
+    signal SHIFT_INC  : unsigned(high_shift_val_pst'range);
+    signal INIT_SHIFT : unsigned(high_shift_val_pst'range);
 
     -- attribute mark_debug                       : string;
     -- attribute mark_debug of tprocess_pst       : signal is "true";
     -- attribute mark_debug of high_shift_val_pst : signal is "true";
 begin
 
-    assert ((RX_REGION_SIZE = 1 and RX_BLOCK_SIZE = 128 and RX_ITEM_WIDTH = 8)
-            or (RX_REGION_SIZE = 1 and RX_BLOCK_SIZE = 256 and RX_ITEM_WIDTH = 8))
-        report "RX_DMA_HDR_INSERTOR: The design is not prepared for such RX MFB configuration, the valid are: MFB#(_,1,128,8), MFB#(_,1,256,8)."
+    assert ((RX_REGION_SIZE = 1 and RX_BLOCK_SIZE = 64 and RX_ITEM_WIDTH = 8)
+            or (RX_REGION_SIZE = 1 and RX_BLOCK_SIZE = 128 and RX_ITEM_WIDTH = 8))
+        report "RX_DMA_HDR_INSERTOR: The design is not prepared for such RX MFB configuration, the valid are: MFB#(_,1,64,8), MFB#(_,1,128,8)."
         severity FAILURE;
 
     assert ((TX_REGIONS = 1 and TX_REGION_SIZE = 1 and TX_BLOCK_SIZE = 8 and TX_ITEM_WIDTH = 32)
@@ -143,9 +145,9 @@ begin
                 tprocess_pst       <= IDLE;
                 shift_sel_pst      <= '0';
                 if (IS_INTEL = FALSE) then
-                    high_shift_val_pst <= "11";
+                    high_shift_val_pst <= to_unsigned(3, high_shift_val_pst'length);
                 else
-                    high_shift_val_pst <= "00";
+                    high_shift_val_pst <= to_unsigned(0, high_shift_val_pst'length);
                 end if;
 
             elsif (TX_MFB_DST_RDY = '1') then
@@ -194,7 +196,7 @@ begin
             when TRANSACTION_SEND =>
 
                 if (IS_INTEL = FALSE) then
-                    if (high_shift_val_pst = "11") then
+                    if (high_shift_val_pst = to_unsigned(3, high_shift_val_pst'length)) then
 
                         -- For one region - the DMA header is sent in separate word
                         if (RX_MFB_EOF = '1' and TX_REGIONS = 1) then
@@ -209,7 +211,7 @@ begin
                 else
                     -- Both regions moves to DMA_HDR_SEND state when EOF occurs
                     if (TX_REGIONS = 1) then
-                        if (high_shift_val_pst = "11") then
+                        if (high_shift_val_pst = to_unsigned(3, high_shift_val_pst'length)) then
                             if (RX_MFB_EOF = '1') then
                                 tprocess_nst <= DMA_HDR_SEND;
                             else
@@ -217,7 +219,7 @@ begin
                             end if;
                         end if;
                     else
-                        if (high_shift_val_pst = "10") then
+                        if (high_shift_val_pst = to_unsigned(2, high_shift_val_pst'length)) then
                             if (RX_MFB_EOF = '1') then
                                 tprocess_nst <= DMA_HDR_SEND;
                             else
@@ -264,6 +266,8 @@ begin
                 -- the PCIE header, no need to wait for the MFB_SOF signal the RX_DST_RDY signal is sufficient
                 if (RX_MFB_SRC_RDY = '1') then
                     RX_MFB_DST_RDY <= '0';
+                else
+                    RX_MFB_DST_RDY <= '1';
                 end if;
 
                 -- if PCIE header has been captured, then deassert the PCIE_HDR_DST_RDY signal because we need to
@@ -294,7 +298,7 @@ begin
                 if (IS_INTEL = FALSE) then
 
                     if (TX_REGIONS = 1) then
-                        if (high_shift_val_pst = "11") then
+                        if (high_shift_val_pst = to_unsigned(3, high_shift_val_pst'length)) then
                             -- switch the PCIE header on the input to the next one
                             -- DMA_HDR request
                             HDRM_DATA_PCIE_HDR_DST_RDY <= TX_MFB_DST_RDY;
@@ -309,7 +313,7 @@ begin
                             end if;
                         end if;
                     else
-                        if (high_shift_val_pst = "11") then
+                        if (high_shift_val_pst = to_unsigned(3, high_shift_val_pst'length)) then
 
                             RX_MFB_DST_RDY        <= TX_MFB_DST_RDY;
                             -- switch the PCIE header on the input to the next one (for the next transaction)
@@ -324,7 +328,7 @@ begin
                 else
                     -- Both regions moves to DMA_HDR_SEND state when EOF occurs
                     if (TX_REGIONS = 1) then
-                        if (high_shift_val_pst = "11") then
+                        if (high_shift_val_pst = to_unsigned(3, high_shift_val_pst'length)) then
                             -- PCIe_HDR request
                             HDRM_DATA_PCIE_HDR_DST_RDY <= TX_MFB_DST_RDY;
 
@@ -334,7 +338,7 @@ begin
                             end if;
                         end if;
                     else
-                        if (high_shift_val_pst = "10") then
+                        if (high_shift_val_pst = to_unsigned(2, high_shift_val_pst'length)) then
                             -- PCIe_HDR request
                             HDRM_DATA_PCIE_HDR_DST_RDY <= TX_MFB_DST_RDY;
 
@@ -372,13 +376,13 @@ begin
     -- Same for Intel ... the reset value must change
     -- my attempt to make the set of constants which change according to the specified generic parameters
     shift_cntr_incr_g : if (TX_REGIONS = 1) generate
-        INIT_SHIFT <= "00";
-        SHIFT_INC  <= "01";
+        INIT_SHIFT <= to_unsigned(0, high_shift_val_pst'length);
+        SHIFT_INC  <= to_unsigned(1, high_shift_val_pst'length);
     else generate
-        INIT_SHIFT <= "01";
+        INIT_SHIFT <= to_unsigned(1, high_shift_val_pst'length);
         -- increment by two, the barrel shifter remains the same for both of the configurations so the
         -- shifting by two is needed
-        SHIFT_INC  <= "10";
+        SHIFT_INC  <= to_unsigned(2, high_shift_val_pst'length);
     end generate;
 
     --=============================================================================================================
@@ -442,7 +446,7 @@ begin
 
                 -- Xilinx
                 if (IS_INTEL = FALSE) then
-                    if (high_shift_val_pst = "11") then
+                    if (high_shift_val_pst = to_unsigned(3, high_shift_val_pst'length)) then
 
                         -- because the design in this configuration contains two regions, the output word
                         -- is organized in the way that the first half is occupied by the rest of a current
@@ -500,7 +504,7 @@ begin
                 -- Intel
                 else
                     if (TX_REGIONS = 1) then
-                        if (high_shift_val_pst = "11") then
+                        if (high_shift_val_pst = to_unsigned(3, high_shift_val_pst'length)) then
 
                             -- The packet will be aligned "111"
                             TX_MFB_EOF      <= std_logic_vector(to_unsigned(1, TX_MFB_EOF'length));
@@ -508,7 +512,7 @@ begin
 
                         end if;
                     else
-                        if (high_shift_val_pst = "10") then
+                        if (high_shift_val_pst = to_unsigned(2, high_shift_val_pst'length)) then
 
                             -- The packet will be aligned "111000"
                             TX_MFB_EOF      <= std_logic_vector(to_unsigned(2, TX_MFB_EOF'length));
@@ -559,7 +563,7 @@ begin
     input_data_shifter_i : entity work.BARREL_SHIFTER_GEN
         generic map (
             -- 32 DWs and each has 32b
-            BLOCKS     => 32,
+            BLOCKS     => RX_MFB_DW_SIZE,
             BLOCK_SIZE => 32,
             SHIFT_LEFT => FALSE)
         port map (

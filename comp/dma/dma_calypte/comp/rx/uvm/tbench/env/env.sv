@@ -6,8 +6,8 @@
 
 // Environment for functional verification of encode.
 // This environment containts two mii agents.
-class env #(USER_REGIONS, USER_REGION_SIZE, USER_BLOCK_SIZE, USER_ITEM_WIDTH, PCIE_UP_REGIONS, PCIE_UP_REGION_SIZE, PCIE_UP_BLOCK_SIZE, PCIE_UP_ITEM_WIDTH, PCIE_UP_META_WIDTH, CHANNELS, PKT_SIZE_MAX, MI_WIDTH, DEVICE) extends uvm_env;
-    `uvm_component_param_utils(uvm_dma_ll::env #(USER_REGIONS, USER_REGION_SIZE, USER_BLOCK_SIZE, USER_ITEM_WIDTH, PCIE_UP_REGIONS, PCIE_UP_REGION_SIZE, PCIE_UP_BLOCK_SIZE, PCIE_UP_ITEM_WIDTH, PCIE_UP_META_WIDTH, CHANNELS, PKT_SIZE_MAX, MI_WIDTH, DEVICE));
+class env #(USER_REGIONS, USER_REGION_SIZE, USER_BLOCK_SIZE, USER_ITEM_WIDTH, PCIE_UP_REGIONS, PCIE_UP_REGION_SIZE, PCIE_UP_BLOCK_SIZE, PCIE_UP_ITEM_WIDTH, PCIE_UP_META_WIDTH, CHANNELS, PKT_SIZE_MAX, MI_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE) extends uvm_env;
+    `uvm_component_param_utils(uvm_dma_ll::env #(USER_REGIONS, USER_REGION_SIZE, USER_BLOCK_SIZE, USER_ITEM_WIDTH, PCIE_UP_REGIONS, PCIE_UP_REGION_SIZE, PCIE_UP_BLOCK_SIZE, PCIE_UP_ITEM_WIDTH, PCIE_UP_META_WIDTH, CHANNELS, PKT_SIZE_MAX, MI_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE));
 
     localparam INPUT_META_WIDTH = 24 + $clog2(PKT_SIZE_MAX+1) + $clog2(CHANNELS);
 
@@ -19,7 +19,7 @@ class env #(USER_REGIONS, USER_REGION_SIZE, USER_BLOCK_SIZE, USER_ITEM_WIDTH, PC
     uvm_mvb::agent_rx#(1, 1)                                                                                            m_dma;
     uvm_mi::regmodel#(regmodel#(CHANNELS), MI_WIDTH, MI_WIDTH) m_regmodel;
 
-    scoreboard #(USER_ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, PCIE_UP_META_WIDTH, DEVICE) sc;
+    scoreboard #(USER_ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, PCIE_UP_META_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE) sc;
 
     // Constructor of environment.
     function new(string name, uvm_component parent);
@@ -73,7 +73,7 @@ class env #(USER_REGIONS, USER_REGION_SIZE, USER_BLOCK_SIZE, USER_ITEM_WIDTH, PC
         uvm_config_db#(uvm_mi::regmodel_config)::set(this, "m_regmodel", "m_config", m_mi_config);
         m_regmodel = uvm_mi::regmodel#(regmodel#(CHANNELS), MI_WIDTH, MI_WIDTH)::type_id::create("m_regmodel", this);
 
-        sc = scoreboard #(USER_ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, PCIE_UP_META_WIDTH, DEVICE)::type_id::create("sc", this);
+        sc = scoreboard #(USER_ITEM_WIDTH, CHANNELS, PKT_SIZE_MAX, PCIE_UP_META_WIDTH, DEVICE, TRANSFER_SEGMENT_SIZE)::type_id::create("sc", this);
 
         m_sequencer = sequencer#(USER_ITEM_WIDTH, PCIE_UP_REGIONS, PCIE_UP_REGION_SIZE, PCIE_UP_BLOCK_SIZE, PCIE_UP_ITEM_WIDTH, PCIE_UP_META_WIDTH, CHANNELS)::type_id::create("m_sequencer", this);
     endfunction

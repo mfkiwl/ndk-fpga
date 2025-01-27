@@ -13,11 +13,11 @@ module testbench;
     //TESTS
     typedef test::base#(test::USER_REGIONS, test::USER_REGION_SIZE, test::USER_BLOCK_SIZE, test::USER_ITEM_WIDTH,
                            test::PCIE_UP_REGIONS, test::PCIE_UP_REGION_SIZE, test::PCIE_UP_BLOCK_SIZE, test::PCIE_UP_ITEM_WIDTH, test::PCIE_UP_META_WIDTH,
-                           test::CHANNELS, test::PKT_SIZE_MAX, test::MI_WIDTH, test::DEVICE) base;
+                           test::CHANNELS, test::PKT_SIZE_MAX, test::MI_WIDTH, test::DEVICE, test::TRANSFER_SEGMENT_SIZE) base;
 
     typedef test::speed#(test::USER_REGIONS, test::USER_REGION_SIZE, test::USER_BLOCK_SIZE, test::USER_ITEM_WIDTH,
                             test::PCIE_UP_REGIONS, test::PCIE_UP_REGION_SIZE, test::PCIE_UP_BLOCK_SIZE, test::PCIE_UP_ITEM_WIDTH, test::PCIE_UP_META_WIDTH,
-                            test::CHANNELS, test::PKT_SIZE_MAX, test::MI_WIDTH, test::DEVICE) speed;
+                            test::CHANNELS, test::PKT_SIZE_MAX, test::MI_WIDTH, test::DEVICE, test::TRANSFER_SEGMENT_SIZE) speed;
 
     localparam USER_META_WIDTH = 24 + $clog2(PKT_SIZE_MAX+1) + $clog2(CHANNELS);
 
@@ -66,22 +66,23 @@ module testbench;
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // DUT
     DMA_LL_DUT #(
-        .DEVICE              (test::DEVICE),
-        .USER_REGIONS        (test::USER_REGIONS),
-        .USER_REGION_SIZE    (test::USER_REGION_SIZE   ),
-        .USER_BLOCK_SIZE     (test::USER_BLOCK_SIZE    ),
-        .USER_ITEM_WIDTH     (test::USER_ITEM_WIDTH    ),
-        .PCIE_UP_REGIONS     (test::PCIE_UP_REGIONS    ),
-        .PCIE_UP_REGION_SIZE (test::PCIE_UP_REGION_SIZE),
-        .PCIE_UP_BLOCK_SIZE  (test::PCIE_UP_BLOCK_SIZE ),
-        .PCIE_UP_ITEM_WIDTH  (test::PCIE_UP_ITEM_WIDTH ),
-        .CHANNELS            (test::CHANNELS),
-        .PKT_SIZE_MAX        (test::PKT_SIZE_MAX),
-        .SW_ADDR_WIDTH       (test::SW_ADDR_WIDTH),
-        .POINTER_WIDTH       (test::POINTER_WIDTH),
-        .CNTRS_WIDTH         (test::CNTRS_WIDTH),
-        .TRBUF_REG_EN        (test::TRBUF_REG_EN),
-        .PERF_CNTR_EN        (test::PERF_CNTR_EN)
+        .DEVICE                (test::DEVICE),
+        .USER_REGIONS          (test::USER_REGIONS),
+        .USER_REGION_SIZE      (test::USER_REGION_SIZE   ),
+        .USER_BLOCK_SIZE       (test::USER_BLOCK_SIZE    ),
+        .USER_ITEM_WIDTH       (test::USER_ITEM_WIDTH    ),
+        .PCIE_UP_REGIONS       (test::PCIE_UP_REGIONS    ),
+        .PCIE_UP_REGION_SIZE   (test::PCIE_UP_REGION_SIZE),
+        .PCIE_UP_BLOCK_SIZE    (test::PCIE_UP_BLOCK_SIZE ),
+        .PCIE_UP_ITEM_WIDTH    (test::PCIE_UP_ITEM_WIDTH ),
+        .CHANNELS              (test::CHANNELS),
+        .PKT_SIZE_MAX          (test::PKT_SIZE_MAX),
+        .SW_ADDR_WIDTH         (test::SW_ADDR_WIDTH),
+        .POINTER_WIDTH         (test::POINTER_WIDTH),
+        .CNTRS_WIDTH           (test::CNTRS_WIDTH),
+        .TRBUF_REG_EN          (test::TRBUF_REG_EN),
+        .PERF_CNTR_EN          (test::PERF_CNTR_EN),
+        .TRANSFER_SEGMENT_SIZE (test::TRANSFER_SEGMENT_SIZE)
     )
     DUT_U (
         .CLK        (CLK),

@@ -25,13 +25,14 @@ package test;
     parameter PCIE_UP_ITEM_WIDTH  = 32;
     parameter PCIE_UP_META_WIDTH  = sv_pcie_meta_pack::PCIE_RQ_META_WIDTH;
 
-    parameter CHANNELS       = 4;
-    parameter POINTER_WIDTH  = 16;
-    parameter SW_ADDR_WIDTH  = 64;
-    parameter CNTRS_WIDTH    = 64;
-    parameter PKT_SIZE_MAX   = 2**12;
-    parameter TRBUF_REG_EN   = 1'b1;
-    parameter PERF_CNTR_EN   = 1'b0;
+    parameter CHANNELS              = 4;
+    parameter POINTER_WIDTH         = 16;
+    parameter SW_ADDR_WIDTH         = 64;
+    parameter CNTRS_WIDTH           = 64;
+    parameter PKT_SIZE_MAX          = 2**12;
+    parameter TRBUF_REG_EN          = 1'b1;
+    parameter PERF_CNTR_EN          = 1'b0;
+    parameter TRANSFER_SEGMENT_SIZE = 64;
 
     parameter DEVICE = "ULTRASCALE";
 

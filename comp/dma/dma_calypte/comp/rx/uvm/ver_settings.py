@@ -25,6 +25,8 @@ SETTINGS = {
         "PKT_SIZE_MAX"            : "2**12",
         "OPT_BUFF"                : "0",
         "TRBUF_REG_EN"            : "0",
+        "PERF_CNTR_EN"            : "0",
+        "TRANSFER_SEGMENT_SIZE"   : "128",
 
         "PCIE_LEN_MIN"            : "1",
         "PCIE_LEN_MAX"            : "256",
@@ -41,6 +43,9 @@ SETTINGS = {
     },
     "trbuf_reg_en" : {
         "TRBUF_REG_EN"            : "1",
+    },
+    "64_segment_size" : {
+        "TRANSFER_SEGMENT_SIZE"   : "64",
     },
     "intel_dev" : {
         "DEVICE"                  : "\\\"AGILEX\\\"",

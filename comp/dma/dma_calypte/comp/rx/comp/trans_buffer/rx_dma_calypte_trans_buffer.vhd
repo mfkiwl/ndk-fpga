@@ -101,8 +101,8 @@ begin
         report "RX_DMA_TRANS_BUFFER: The component was not designed for this RX MFB configuration, the allowed are: MFB#(1,1,32,8), MFB#(1,1,64,8)"
         severity FAILURE;
 
-    assert (BUFFERED_DATA_SIZE = 128)
-        report "RX_DMA_TRANS_BUFFER: the design does not currently support the specified length of the buffered data, the allowed are: 128"
+    assert (BUFFERED_DATA_SIZE = 128 or BUFFERED_DATA_SIZE = 64)
+        report "RX_DMA_TRANS_BUFFER: the design does not currently support the specified length of the buffered data, the allowed are: 64, 128"
         severity FAILURE;
 
     full_buff_g: if (BUFFERED_DATA_SIZE > RX_MFB_DATA'length/8) generate

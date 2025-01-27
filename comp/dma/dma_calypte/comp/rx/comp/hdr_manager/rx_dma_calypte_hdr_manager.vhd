@@ -30,6 +30,8 @@ entity RX_DMA_CALYPTE_HDR_MANAGER is
         ADDR_WIDTH    : integer := 64;
         -- width of a pointer to the ring buffer log2(NUMBER_OF_ITEMS)
         POINTER_WIDTH : integer := 16;
+        -- Byte length of a segment, e.g. the length of a PCIe transaction with data
+        DATA_SEGMENT_SIZE : natural := 128;
         -- The DEVICE parameter allows the correct selection of the RAM
         -- implementation according to the FPGA used. Supported values are:
         --
@@ -150,9 +152,6 @@ entity RX_DMA_CALYPTE_HDR_MANAGER is
 end entity;
 
 architecture FULL of RX_DMA_CALYPTE_HDR_MANAGER is
-
-    -- Byte length of a segment, e.g. the length of a PCIe transaction with data
-    constant DATA_SEGMENT_SIZE : natural := 128;
     -- Subrange of packet length that determines how much segments a packet consists from
     subtype BLK_CNT is natural range log2(PKT_MTU+1)-1 downto log2(DATA_SEGMENT_SIZE);
 
@@ -560,13 +559,11 @@ begin
             when S_IDLE =>
 
                 if (input_fifo_empty = '0') then
-                    if (channel_status_reg(to_integer(unsigned(input_channel))) = '1') then
+                    if (not (MFB_EOF = "1" and MFB_SRC_RDY = '1' and MFB_DST_RDY = '1')) then
+                        if (channel_status_reg(to_integer(unsigned(input_channel))) = '1') then
                         -- if there is a one-word packet, then do not transition
-                        if (not (MFB_EOF = "1" and MFB_SRC_RDY = '1' and MFB_DST_RDY = '1')) then
                             pkt_process_nst <= S_PACKET_PROCESS;
-                        end if;
-                    else
-                        if (not (MFB_EOF = "1" and MFB_SRC_RDY = '1' and MFB_DST_RDY = '1')) then
+                        else
                             pkt_process_nst <= S_PACKET_DISCARD;
                         end if;
                     end if;
@@ -648,7 +645,7 @@ begin
                 if (MFB_SRC_RDY = '1' and MFB_DST_RDY = '1') then
                     -- Another block of data has been received, update the data pointer and generate new
                     -- PCIe header
-                    if (STAT_PKT_LNG(BLK_CNT) > pkt_lng_reg and MFB_EOF = "0") then
+                    if (STAT_PKT_LNG(BLK_CNT) >= pkt_lng_reg) then
                         pkt_lng_new       <= STAT_PKT_LNG(BLK_CNT);
                         data_addr_next_wr <= '1';
                     end if;
