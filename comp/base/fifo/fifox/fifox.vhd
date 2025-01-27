@@ -297,27 +297,8 @@ begin
             WR_ADDR => std_logic_vector(addr_in_reg),
             WR_DATA => DI,
             RD_ADDR => std_logic_vector(addr_out_reg),
-            RD_DATA => lut_mem_reg
+            RD_DATA => DO
          );
-
-         lut_mem_reg_p :process (CLK)  -- First LUT memory data output register
-         begin
-            if (rising_edge(CLK)) then
-               if (rd_ce = '1') then
-                  lut_mem_out <= lut_mem_reg;
-               end if;
-            end if;
-         end process;
-
-         lut_mem_out_p :process (CLK)  -- Second LUT memory data output register
-         begin
-            if (rising_edge(CLK)) then
-               if (rd_reg_ce = '1') then
-                  DO <= lut_mem_out;
-               end if;
-            end if;
-         end process;
-
       end generate;
 
       -- -------------------------------------------------------------------------
@@ -395,27 +376,27 @@ begin
       --                      EMPTY FLAG REGISTERS
       -- -------------------------------------------------------------------------
 
-      empty_comp_reg :process (CLK) -- First EMPTY register
-         begin
-            if (rising_edge(CLK)) then
-               if (RESET = '1') then
-                  empty_reg <= '1';
-               elsif (rd_ce = '1') then
-                  empty_reg <= empty_comp;
-               end if;
-            end if;
-         end process;
+      -- empty_comp_reg :process (CLK) -- First EMPTY register
+      --    begin
+      --       if (rising_edge(CLK)) then
+      --          if (RESET = '1') then
+      --             empty_reg <= '1';
+      --          elsif (rd_ce = '1') then
+      --             empty_reg <= empty_comp;
+      --          end if;
+      --       end if;
+      --    end process;
 
-      empty_p :process (CLK)        -- Second EMPTY register
-         begin
-            if (rising_edge(CLK)) then
-               if (RESET = '1') then
-                  EMPTY <= '1';
-               elsif (rd_reg_ce = '1') then
-                  EMPTY <= empty_reg;
-               end if;
-            end if;
-         end process;
+      -- empty_p :process (CLK)        -- Second EMPTY register
+      --    begin
+      --       if (rising_edge(CLK)) then
+      --          if (RESET = '1') then
+      --             EMPTY <= '1';
+      --          elsif (rd_ce = '1') then
+      --             EMPTY <= empty_comp;
+      --          end if;
+      --       end if;
+      --    end process;
 
       -- -------------------------------------------------------------------------
       --                      STATUS COUNTER
@@ -456,8 +437,8 @@ begin
 
       wr_en <= WR AND NOT FULL;
       rd_en <= RD AND NOT EMPTY;
-      rd_reg_ce <= RD OR EMPTY;
-      rd_ce <= rd_reg_ce OR empty_reg;
+      -- rd_ce <= RD OR EMPTY;
+      -- rd_ce <= rd_reg_ce OR empty_reg;
 
       non_shift_fifo_g : if (RAM_TYPE_SELECTED /= "SHIFT") generate
          -- -------------------------------------------------------------------------
@@ -473,7 +454,7 @@ begin
             if (rising_edge(CLK)) then
                if (RESET = '1') then
                   addr_in_cnt <= to_unsigned(1,ADDR_WIDTH);
-               elsif (inc_in_cnt = '1') then
+               elsif (wr_en = '1') then
                   if (max_in = '1') then
                      addr_in_cnt <= (others => '0');
                   else
@@ -488,7 +469,7 @@ begin
             if (rising_edge(CLK)) then
                if (RESET = '1') then
                   addr_in_reg <= (others => '0');
-               elsif(inc_in_cnt = '1') then
+               elsif(wr_en = '1') then
                   addr_in_reg <= addr_in_cnt;
                end if;
             end if;
@@ -509,7 +490,7 @@ begin
             if (rising_edge(CLK)) then
                if (RESET = '1') then
                   addr_out_cnt <= to_unsigned(1,ADDR_WIDTH);
-               elsif (inc_out_cnt = '1') then
+               elsif (rd_en = '1') then
                   if (max_out = '1') then
                      addr_out_cnt <= (others => '0');
                   else
@@ -524,12 +505,11 @@ begin
             if (rising_edge(CLK)) then
                if (RESET = '1') then
                   addr_out_reg <= (others => '0');
-               elsif(inc_out_cnt = '1') then
+               elsif(rd_en = '1') then
                   addr_out_reg <= addr_out_cnt;
                end if;
             end if;
          end process;
-
 
          max_out <= '1' when (addr_out_cnt = (ITEMS_INTER-1)) else '0';
 
@@ -544,10 +524,10 @@ begin
 
          empty_flag_gen : process (addr_in_cnt, addr_out_cnt)
          begin
-            if (addr_out_cnt = addr_in_cnt) then
-               empty_comp <= '1';
+            if (addr_out_cnt = addr_in_cnt and FULL = '0') then
+               EMPTY <= '1';
             else
-               empty_comp <= '0';
+               EMPTY <= '0';
             end if;
          end process;
 
@@ -555,8 +535,8 @@ begin
          --                     NON-SHIFT CONTROL UNIT
          -- -------------------------------------------------------------------------
 
-         inc_in_cnt <= wr_en;
-         inc_out_cnt <= rd_ce AND NOT empty_comp;
+         -- inc_in_cnt <= wr_en;
+         -- inc_out_cnt <= rd_en;
 
       end generate non_shift_fifo_g;
 
