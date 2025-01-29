@@ -575,15 +575,26 @@ begin
             "100" when '1',
             "000" when others;
 
-        tx_mfb_meta_g: for i in 0 to TX_REGIONS-1 generate
-            process (all) is
-            begin
-                tx_mfb_meta_arr(i) <= (others => '0');
+        tx_mfb_meta_assign_p: process (all) is
+        begin
+            tx_mfb_meta_arr(i) <= (others => (others => '0'));
+
+            for rgn_idx in 0 to TX_REGIONS-1 loop
                 -- FBE and LBE for Xilinx FPGA
-                tx_mfb_meta_arr(i)(PCIE_RQ_META_FBE) <= (others => '1');
-                tx_mfb_meta_arr(i)(PCIE_RQ_META_LBE) <= (others => '1');
-            end process;
-        end generate;
+                tx_mfb_meta_arr(rgn_idx)(PCIE_RQ_META_FBE) <= (others => '1');
+                tx_mfb_meta_arr(rgn_idx)(PCIE_RQ_META_LBE) <= (others => '1');
+            end loop;
+
+            if (TX_REGIONS = 1 and tprocess_pst = DMA_HDR_SEND) then
+                tx_mfb_meta_arr(0)(PCIE_RQ_META_TPH_PRESENT) <= "1";
+                tx_mfb_meta_arr(0)(PCIE_RQ_META_TPH_TYPE)    <= "10";
+            else
+                if (TX_REGIONS = 2 and RX_MFB_EOF = '1' and tprocess_pst = TRANSACTION_SEND) then
+                    tx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_PRESENT) <= "1";
+                    tx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_TYPE)    <= "10";
+                end if;
+            end if;
+        end process;
     else generate
         low_shift_val   <= (others => '0');
 
