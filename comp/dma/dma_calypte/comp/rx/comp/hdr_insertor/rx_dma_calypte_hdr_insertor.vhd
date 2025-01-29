@@ -577,7 +577,7 @@ begin
 
         tx_mfb_meta_assign_p: process (all) is
         begin
-            tx_mfb_meta_arr(i) <= (others => (others => '0'));
+            tx_mfb_meta_arr <= (others => (others => '0'));
 
             for rgn_idx in 0 to TX_REGIONS-1 loop
                 -- FBE and LBE for Xilinx FPGA
