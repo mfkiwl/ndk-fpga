@@ -45,6 +45,7 @@ set_property -dict [list \
     CONFIG.pf0_bar2_scale {Megabytes} \
     CONFIG.pf0_bar2_size {16} \
     CONFIG.pf0_rbar_cap_bar0 {0xffffffffffff} \
+    CONFIG.pf0_tphr_enable {true} \
     CONFIG.pf0_dsn_enabled {true} \
     CONFIG.pf0_msi_enabled {false} \
     CONFIG.pf0_msix_enabled {true} \
