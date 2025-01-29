@@ -93,6 +93,22 @@ architecture FULL of PTC_MFB2PCIE_AXI is
    signal s_first_be : std_logic_vector(7 downto 0);
    signal s_last_be  : std_logic_vector(7 downto 0);
 
+   signal s_tph_present  : std_logic_vector(1 downto 0);
+   signal s_tph_present0 : std_logic;
+   signal s_tph_present1 : std_logic;
+
+   signal s_tph_type  : std_logic_vector(3 downto 0);
+   signal s_tph_type0 : std_logic_vector(1 downto 0);
+   signal s_tph_type1 : std_logic_vector(1 downto 0);
+
+   signal s_tph_ind_tag_en  : std_logic_vector(1 downto 0);
+   signal s_tph_ind_tag_en0 : std_logic;
+   signal s_tph_ind_tag_en1 : std_logic;
+
+   signal s_tph_st_tag  : std_logic_vector(15 downto 0);
+   signal s_tph_st_tag0 : std_logic_vector(7 downto 0);
+   signal s_tph_st_tag1 : std_logic_vector(7 downto 0);
+
    signal s_rq_user : std_logic_vector(AXI_RQUSER_WIDTH-1 downto 0);
 
 begin
@@ -133,21 +149,46 @@ begin
       s_is_eop0_ptr <= '1' & s_rx_mfb_eof_pos_arr(1) when (RX_MFB_EOF = "10") else '0' & s_rx_mfb_eof_pos_arr(0);
       s_is_eop1_ptr <= '1' & s_rx_mfb_eof_pos_arr(1);
 
-      -- set byte enables for first packet in word
-      s_first_be0 <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_FBE) when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_FBE);
-      s_last_be0  <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_LBE) when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_LBE);
+      -- set metadata for the first packet in a word
+      s_first_be0       <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_FBE)               when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_FBE);
+      s_last_be0        <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_LBE)               when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_LBE);
+      s_tph_present0    <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_TPH_PRESENT)(0)    when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_PRESENT)(0);
+      s_tph_type0       <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_TPH_TYPE)          when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_TYPE);
+      s_tph_ind_tag_en0 <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_TPH_IND_TAG_EN)(0) when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_IND_TAG_EN)(0);
+      s_tph_st_tag0     <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_TPH_ST_TAG)        when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_ST_TAG);
 
-      -- set byte enables for second packet in word
-      s_first_be1 <= s_rx_mfb_META_arr(1)(PCIE_RQ_META_FBE);
-      s_last_be1  <= s_rx_mfb_META_arr(1)(PCIE_RQ_META_LBE);
+      -- set metadata for the second packet in a word
+      s_first_be1       <= s_rx_mfb_meta_arr(1)(PCIE_RQ_META_FBE);
+      s_last_be1        <= s_rx_mfb_meta_arr(1)(PCIE_RQ_META_LBE);
+      s_tph_present1    <= s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_PRESENT)(0);
+      s_tph_type1       <= s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_TYPE);
+      s_tph_ind_tag_en1 <= s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_IND_TAG_EN)(0);
+      s_tph_st_tag1     <= s_rx_mfb_meta_arr(1)(PCIE_RQ_META_TPH_ST_TAG);
 
-      -- prepare byte enables for request interface
-      s_first_be <= s_first_be1 & s_first_be0;
-      s_last_be  <= s_last_be1 & s_last_be0;
+      -- prepare metadata for insertion into RQ_USER
+      s_first_be       <= s_first_be1 & s_first_be0;
+      s_last_be        <= s_last_be1 & s_last_be0;
+      s_tph_present    <= s_tph_present1 & s_tph_present0;
+      s_tph_type       <= s_tph_type1 & s_tph_type0;
+      s_tph_ind_tag_en <= s_tph_ind_tag_en1 & s_tph_ind_tag_en0;
+      s_tph_st_tag     <= s_tph_st_tag1 & s_tph_st_tag0;
 
       -- create request user signal
-      s_rq_user <= (AXI_RQUSER_WIDTH-1 downto 36 => '0') & s_is_eop1_ptr & s_is_eop0_ptr & s_is_eop &
-                   s_is_sop1_ptr & s_is_sop0_ptr & s_is_sop & "0000" & s_last_be & s_first_be;
+      s_rq_user <= (AXI_RQUSER_WIDTH-1 downto 61 => '0')
+                   & s_tph_st_tag
+                   & s_tph_ind_tag_en
+                   & s_tph_type
+                   & s_tph_present
+                   & '0'
+                   & s_is_eop1_ptr
+                   & s_is_eop0_ptr
+                   & s_is_eop
+                   & s_is_sop1_ptr
+                   & s_is_sop0_ptr
+                   & s_is_sop
+                   & (11 downto 8 => '0')
+                   & s_last_be
+                   & s_first_be;
    end generate;
 
    one_region_tuser_gen : if (MFB_REGIONS = 1) generate
@@ -175,7 +216,14 @@ begin
       end process;
 
       -- create request user signal
-      s_rq_user <= (AXI_RQUSER_WIDTH-1 downto 8 => '0') & RX_MFB_META(PCIE_RQ_META_LBE) & RX_MFB_META(PCIE_RQ_META_FBE);
+      s_rq_user <= (AXI_RQUSER_WIDTH -1 downto 24 => '0')
+                   & RX_MFB_META(PCIE_RQ_META_TPH_ST_TAG)
+                   & RX_MFB_META(PCIE_RQ_META_TPH_IND_TAG_EN)
+                   & RX_MFB_META(PCIE_RQ_META_TPH_TYPE)
+                   & RX_MFB_META(PCIE_RQ_META_TPH_PRESENT)
+                   & (11 downto 8 => '0')
+                   & RX_MFB_META(PCIE_RQ_META_LBE)
+                   & RX_MFB_META(PCIE_RQ_META_FBE);
    end generate;
 
    -- --------------------------------------------------------------------------
