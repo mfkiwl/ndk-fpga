@@ -12,6 +12,7 @@ use IEEE.numeric_std.all;
 
 use work.math_pack.all;
 use work.type_pack.all;
+use work.pcie_meta_pack.all;
 
 entity PTC_MFB2PCIE_AXI is
    generic(
@@ -36,14 +37,13 @@ entity PTC_MFB2PCIE_AXI is
       -- INPUT MFB INTERFACE
       -- =======================================================================
       RX_MFB_DATA    : in  std_logic_vector(MFB_REGIONS*MFB_REGION_SIZE*MFB_BLOCK_SIZE*MFB_ITEM_WIDTH -1 downto 0);
+      RX_MFB_META    : in  std_logic_vector(MFB_REGIONS*PCIE_RQ_META_WIDTH -1 downto 0);
       RX_MFB_SOF_POS : in  std_logic_vector(MFB_REGIONS*max(1, log2(MFB_REGION_SIZE)) -1 downto 0);
       RX_MFB_EOF_POS : in  std_logic_vector(MFB_REGIONS*max(1, log2(MFB_REGION_SIZE*MFB_BLOCK_SIZE)) -1 downto 0);
       RX_MFB_SOF     : in  std_logic_vector(MFB_REGIONS -1 downto 0);
       RX_MFB_EOF     : in  std_logic_vector(MFB_REGIONS -1 downto 0);
       RX_MFB_SRC_RDY : in  std_logic;
       RX_MFB_DST_RDY : out std_logic;
-      -- PCIe transaction length last and first DWORD byte enable (MSB -> last byte, LSB -> first byte)
-      RX_MFB_BE      : in  std_logic_vector(MFB_REGIONS*8 -1 downto 0);
       --============================================================================================
 
       -- =======================================================================
@@ -70,8 +70,8 @@ architecture FULL of PTC_MFB2PCIE_AXI is
 
    constant EOF_POS_WIDTH : natural := log2(MFB_REGION_SIZE*MFB_BLOCK_SIZE);
 
-   signal s_rx_mfb_eof_pos_arr : slv_array_t(MFB_REGIONS-1 downto 0)(EOF_POS_WIDTH-1 downto 0);
-   signal s_rx_mfb_be_arr      : slv_array_t(MFB_REGIONS-1 downto 0)(8-1 downto 0);
+   signal s_rx_mfb_eof_pos_arr : slv_array_t(MFB_REGIONS -1 downto 0)(EOF_POS_WIDTH -1 downto 0);
+   signal s_rx_mfb_meta_arr    : slv_array_t(MFB_REGIONS -1 downto 0)(PCIE_RQ_META_WIDTH -1 downto 0);
 
    signal s_rq_last : std_logic;
    signal s_rq_keep : std_logic_vector(RQ_DATA'length/32-1 downto 0);
@@ -115,9 +115,8 @@ begin
    two_region_tuser_gen : if (MFB_REGIONS = 2) generate
       -- create array of end of frame position
       s_rx_mfb_eof_pos_arr <= slv_array_downto_deser(RX_MFB_EOF_POS, MFB_REGIONS, EOF_POS_WIDTH);
-
-      -- create array of byte enables
-      s_rx_mfb_be_arr <= slv_array_downto_deser(RX_MFB_BE, MFB_REGIONS, 8);
+      -- deserialize input metadata signal for better manipulation
+      s_rx_mfb_meta_arr <= slv_array_downto_deser(RX_MFB_META, MFB_REGIONS);
 
       -- keep in straddle mode is not useful therefore, all bits are set to VCC
       s_rq_keep <= (others => '1');
@@ -135,12 +134,12 @@ begin
       s_is_eop1_ptr <= '1' & s_rx_mfb_eof_pos_arr(1);
 
       -- set byte enables for first packet in word
-      s_first_be0 <= s_rx_mfb_be_arr(0)(3 downto 0) when RX_MFB_SOF(0) = '1' else s_rx_mfb_be_arr(1)(3 downto 0);
-      s_last_be0  <= s_rx_mfb_be_arr(0)(7 downto 4) when RX_MFB_SOF(0) = '1' else s_rx_mfb_be_arr(1)(7 downto 4);
+      s_first_be0 <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_FBE) when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_FBE);
+      s_last_be0  <= s_rx_mfb_meta_arr(0)(PCIE_RQ_META_LBE) when RX_MFB_SOF(0) = '1' else s_rx_mfb_meta_arr(1)(PCIE_RQ_META_LBE);
 
       -- set byte enables for second packet in word
-      s_first_be1 <= s_rx_mfb_be_arr(1)(3 downto 0);
-      s_last_be1  <= s_rx_mfb_be_arr(1)(7 downto 4);
+      s_first_be1 <= s_rx_mfb_META_arr(1)(PCIE_RQ_META_FBE);
+      s_last_be1  <= s_rx_mfb_META_arr(1)(PCIE_RQ_META_LBE);
 
       -- prepare byte enables for request interface
       s_first_be <= s_first_be1 & s_first_be0;
@@ -176,7 +175,7 @@ begin
       end process;
 
       -- create request user signal
-      s_rq_user <= (AXI_RQUSER_WIDTH-1 downto 8 => '0') & RX_MFB_BE;
+      s_rq_user <= (AXI_RQUSER_WIDTH-1 downto 8 => '0') & RX_MFB_META(PCIE_RQ_META_LBE) & RX_MFB_META(PCIE_RQ_META_FBE);
    end generate;
 
    -- --------------------------------------------------------------------------
