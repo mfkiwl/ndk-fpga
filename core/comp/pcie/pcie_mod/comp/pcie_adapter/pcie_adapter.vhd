@@ -267,7 +267,6 @@ architecture FULL of PCIE_ADAPTER is
     signal cq_tph_st_tag        : std_logic_vector(CQ_MFB_REGIONS*8-1 downto 0);
     signal cq_fbe               : std_logic_vector(CQ_MFB_REGIONS*4-1 downto 0);
     signal cq_lbe               : std_logic_vector(CQ_MFB_REGIONS*4-1 downto 0);
-    signal rq_mfb_be_arr        : slv_array_t(RQ_MFB_REGIONS-1 downto 0)(8-1 downto 0);
 
     signal cq_mfb_meta_arr      : slv_array_t(CQ_MFB_REGIONS-1 downto 0)(PCIE_CQ_META_WIDTH-1 downto 0);
     signal rc_mfb_meta_arr      : slv_array_t(RC_MFB_REGIONS-1 downto 0)(PCIE_RC_META_WIDTH-1 downto 0);
@@ -419,13 +418,13 @@ begin
         )
         port map (
             RX_MFB_DATA    => RQ_MFB_DATA,
+            RX_MFB_META    => RQ_MFB_META,
             RX_MFB_SOF_POS => RQ_MFB_SOF_POS,
             RX_MFB_EOF_POS => RQ_MFB_EOF_POS,
             RX_MFB_SOF     => RQ_MFB_SOF,
             RX_MFB_EOF     => RQ_MFB_EOF,
             RX_MFB_SRC_RDY => RQ_MFB_SRC_RDY,
             RX_MFB_DST_RDY => RQ_MFB_DST_RDY,
-            RX_MFB_BE      => slv_array_ser(rq_mfb_be_arr),
 
             RQ_DATA        => RQ_AXI_DATA,
             RQ_USER        => RQ_AXI_USER,
@@ -434,13 +433,6 @@ begin
             RQ_READY       => RQ_AXI_READY,
             RQ_VALID       => RQ_AXI_VALID
         );
-
-        rq_mfb_meta_arr <= slv_array_deser(RQ_MFB_META, RQ_MFB_REGIONS);
-
-        rq_mfb_be_arr_g: for i in 0 to RQ_MFB_REGIONS-1 generate
-            rq_mfb_be_arr(i) <= rq_mfb_meta_arr(i)(PCIE_RQ_META_LBE) & rq_mfb_meta_arr(i)(PCIE_RQ_META_FBE);
-        end generate;
-
     end generate;
 
     intel_g: if IS_INTEL_DEVICE generate

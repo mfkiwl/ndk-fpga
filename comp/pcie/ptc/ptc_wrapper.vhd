@@ -11,6 +11,7 @@ library work;
 use work.math_pack.all;
 use work.type_pack.all;
 use work.dma_bus_pack.all; -- contains definitions for MVB header fields
+use work.pcie_meta_pack.all;
 
 -- ----------------------------------------------------------------------------
 --                           Description
@@ -431,6 +432,10 @@ begin
     );
 
     xilinx_rq_interface_gen : if (not INTEL_DEV) generate
+        signal ptc_rq_mfb_meta     : std_logic_vector(MFB_UP_REGIONS*PCIE_RQ_META_WIDTH -1 downto 0);
+        signal ptc_rq_mfb_meta_arr : slv_array_t(MFB_UP_REGIONS -1 downto 0)(PCIE_RQ_META_WIDTH -1 downto 0);
+        signal ptc_rq_mfb_be_arr   : slv_array_t(MFB_UP_REGIONS -1 downto 0)(8 -1 downto 0);
+    begin
 
         ---------------------------------------------------------------------------
         -- MFB to PCIe-AXI interface convertor
@@ -447,14 +452,13 @@ begin
         )
         port map(
             RX_MFB_DATA    => ptc_rq_mfb_data   ,
+            RX_MFB_META    => ptc_rq_mfb_meta   ,
             RX_MFB_SOF     => ptc_rq_mfb_sof    ,
             RX_MFB_EOF     => ptc_rq_mfb_eof    ,
             RX_MFB_SOF_POS => ptc_rq_mfb_sof_pos,
             RX_MFB_EOF_POS => ptc_rq_mfb_eof_pos,
             RX_MFB_SRC_RDY => ptc_rq_mfb_src_rdy,
             RX_MFB_DST_RDY => ptc_rq_mfb_dst_rdy,
-
-            RX_MFB_BE      => ptc_rq_mfb_be     ,
 
             RQ_DATA        => RQ_TDATA ,
             RQ_USER        => RQ_TUSER ,
@@ -463,6 +467,18 @@ begin
             RQ_READY       => RQ_TREADY,
             RQ_VALID       => RQ_TVALID
         );
+
+        ptc_rq_mfb_meta   <= slv_array_ser(ptc_rq_mfb_meta_arr);
+        ptc_rq_mfb_be_arr <= slv_array_deser(ptc_rq_mfb_be, MFB_UP_REGIONS);
+
+        ptc_rq_mfb_meta_assign_g: for rgn_idx in 0 to (MFB_UP_REGIONS -1) generate
+            ptc_rq_mfb_meta_assign_p: process (all) is
+            begin
+                ptc_rq_mfb_meta_arr(rgn_idx)                   <= (others => '0');
+                ptc_rq_mfb_meta_arr(rgn_idx)(PCIE_RQ_META_FBE) <= ptc_rq_mfb_be_arr(rgn_idx)(3 downto 0);
+                ptc_rq_mfb_meta_arr(rgn_idx)(PCIE_RQ_META_LBE) <= ptc_rq_mfb_be_arr(rgn_idx)(7 downto 4);
+            end process;
+        end generate;
     end generate;
         ---------------------------------------------------------------------------
 
